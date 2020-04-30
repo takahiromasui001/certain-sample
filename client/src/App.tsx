@@ -4,18 +4,18 @@ import './App.css';
 import axios from 'axios'
 
 function App() {
-  const [components, setComponents] = useState([])
+  const [components, setComponents] : any = useState([])
 
   useEffect(() => {
     const getApiResult = async () => {
-      const result: string = await axios.get('http://localhost:3000/api/v1/components')
-      debugger
-      setComponents(JSON.parse(result))
+      const result: any = await axios.get('http://localhost:3000/api/v1/components')
+      setComponents(result.data[0])
     }
 
     getApiResult()
   }, [])
 
+  console.log(components)
   return (
     <div className="App">
       <header className="App-header">
@@ -31,7 +31,15 @@ function App() {
         >
           Learn React
         </a>
-        {components}
+        <div>
+          {components.name}
+        </div>
+        <div>
+          {components.maker}
+        </div>
+        <div>
+          {components.price}
+        </div>
       </header>
     </div>
   );
