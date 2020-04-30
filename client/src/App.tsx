@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios'
 
 function App() {
+  const [components, setComponents] = useState([])
+
+  useEffect(() => {
+    const getApiResult = async () => {
+      const result: string = await axios.get('http://localhost:3000/api/v1/components')
+      debugger
+      setComponents(JSON.parse(result))
+    }
+
+    getApiResult()
+  }, [])
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Edit <code>src/App.tsx</code> and save to reload.
         </p>
         <a
           className="App-link"
@@ -18,6 +31,7 @@ function App() {
         >
           Learn React
         </a>
+        {components}
       </header>
     </div>
   );
