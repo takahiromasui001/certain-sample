@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   get 'products/index'
   namespace 'api' do
     namespace 'v1' do
-      resources :components
       resources :products
     end
   end
