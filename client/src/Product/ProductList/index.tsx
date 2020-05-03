@@ -40,12 +40,25 @@ const buildProductColumns = (products: IProduct[], setProducts: Dispatch<SetStat
       {
         title: '',
         key: 'action',
-        render: (text: any) => {
+        render: (record: any) => {
           return (
             <button onClick={() => {
-              deleteProduct(text.key) 
+              history.push(`/products/${record.key}`)
             }}>
-              Delete
+              編集
+            </button>
+          )
+        },
+      },
+      {
+        title: '',
+        key: 'action',
+        render: (record: any) => {
+          return (
+            <button onClick={() => {
+              deleteProduct(record.key) 
+            }}>
+              削除
             </button>
           )
         },

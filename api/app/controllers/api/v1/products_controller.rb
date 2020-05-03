@@ -14,6 +14,16 @@ module Api
         product = Product.find(params[:id])
         product.destroy
       end
-    end    
+
+      def show
+        product = Product.find(params[:id])
+        render json: product
+      end
+
+      def update
+        product = Product.find(params[:id])
+        product.update(name: params[:name], maker: params[:maker], price: params[:price])
+      end
+    end
   end
 end

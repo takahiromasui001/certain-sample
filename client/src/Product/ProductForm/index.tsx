@@ -16,7 +16,7 @@ const MyTextInput = ({ label, ...props }: any) => {
 
 interface IProductForm {
   onSubmit: any
-  initialValues?: { name: string, maker: string, price: number }
+  initialValues?: { name: string, maker: string, price: string }
 }
 
 const ProductForm: React.SFC<IProductForm> = props => {
@@ -27,6 +27,7 @@ const ProductForm: React.SFC<IProductForm> = props => {
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
+        enableReinitialize={true}
       >
         <Form>
           <MyTextInput
