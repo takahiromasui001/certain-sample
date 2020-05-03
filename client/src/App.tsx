@@ -1,28 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 function App() {
   const [products, setProducts] : any = useState([])
 
   useEffect(() => {
     const getApiResult = async () => {
-      const result: any = await axios.get('http://localhost:3000/api/v1/products')
-      setProducts(result.data[0])
+      const result: AxiosResponse = await axios.get('http://localhost:3000/api/v1/products')
+      setProducts(result.data)
     }
     getApiResult()
   }, [])
 
-  return (
+  const productList = products.map((product: { name: string, maker: string, price: number }) => (
     <>
       <div>
-        {products.name}
+        {product.name}
       </div>
       <div>
-        {products.maker}
+        {product.maker}
       </div>
       <div>
-        {products.price}
+        {product.price}
       </div>
+    </>
+  ))
+
+  return (
+    <>
+      {productList}
     </>
   )
 }
