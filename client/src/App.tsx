@@ -12,8 +12,8 @@ function App() {
     getApiResult()
   }, [])
 
-  const productList = products.map((product: { name: string, maker: string, price: number }) => (
-    <>
+  const productList = products.map((product: { id: number, name: string, maker: string, price: number }) => (
+    <div key={product.id}>
       <div>
         {product.name}
       </div>
@@ -23,7 +23,7 @@ function App() {
       <div>
         {product.price}
       </div>
-    </>
+    </div>
   ))
 
   return (
