@@ -54,7 +54,6 @@ const buildProductColumns = (products: IProduct[], setProducts: Dispatch<SetStat
   )
 }
 
-
 const ProductList: React.SFC = () => {
   const [products, setProducts] : any = useState([])
   let match = useRouteMatch()
