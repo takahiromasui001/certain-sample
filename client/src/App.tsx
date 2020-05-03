@@ -8,7 +8,7 @@ function App() {
 
   useEffect(() => {
     const getApiResult = async () => {
-      const result: any = await axios.get('http://localhost:3000/api/v1/components')
+      const result: any = await axios.get('http://localhost:3000/api/v1/products')
       setComponents(result.data[0])
     }
 
