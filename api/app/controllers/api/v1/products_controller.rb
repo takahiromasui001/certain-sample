@@ -9,6 +9,11 @@ module Api
       def create
         Product.create(name: params[:name], maker: params[:maker], price: params[:price])
       end
+
+      def destroy
+        product = Product.find(params[:id])
+        product.destroy
+      end
     end    
   end
 end
