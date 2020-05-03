@@ -1,10 +1,9 @@
 import React from 'react'
 import { Formik, Form, useField } from 'formik';
 import { useHistory } from 'react-router-dom'
+import axios, { AxiosResponse }  from 'axios'
 
 const MyTextInput = ({ label, ...props }: any) => {
-  // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
-  // which we can spread on <input> and also replace ErrorMessage entirely.
   const [field, meta] = useField(props)
   return (
     <div>
@@ -27,11 +26,25 @@ const ProductForm: React.SFC = () => {
           maker: '',
           price: '',
         }}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={async (values, { setSubmitting }) => {
           console.log(values.name)
           console.log(values.maker)
           console.log(values.price)
-          history.push("/products")
+
+          try {
+            const response: AxiosResponse = await axios.post('/products', {
+              name: values.name,
+              maker: values.maker,
+              price: values.price
+            })
+            console.log("success")
+            history.push('/products')
+          } catch(error) {
+            console.log("error")
+            history.push('/products/new')
+          } finally {
+            console.log("finaly")
+          }
         }}
       >
         <Form>
