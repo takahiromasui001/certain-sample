@@ -1,12 +1,64 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Dispatch, SetStateAction } from 'react'
 import axios, { AxiosResponse } from 'axios'
-import { Table, Button } from 'antd'
+import { Table } from 'antd'
 import { Link, useRouteMatch } from 'react-router-dom'
-import { productColumns } from './constant'
+import { useHistory } from 'react-router-dom'
+import * as H from 'history';
+
+interface IProduct {
+  id: number
+  name: string
+  maker: string
+  price: number
+}
+
+const buildProductColumns = (products: IProduct[], setProducts: Dispatch<SetStateAction<IProduct[]>>, history: H.History<H.LocationState>) => {
+  const deleteProduct = async (id: number) => {
+    await axios.delete(`http://localhost:3000/api/v1/products/${id}`)
+    const nextProductList: IProduct[] = products.filter((product: IProduct) => ( product.id !== id ))
+    setProducts(nextProductList)
+    history.push('/products')
+  }
+
+  return (
+    [
+      {
+        title: '名前',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: 'メーカー',
+        dataIndex: 'maker',
+        key: 'maker',
+      },
+      {
+        title: '価格',
+        dataIndex: 'price',
+        key: 'price',
+      },
+      {
+        title: '',
+        key: 'action',
+        render: (text: any) => {
+          return (
+            <button onClick={() => {
+              deleteProduct(text.key) 
+            }}>
+              Delete
+            </button>
+          )
+        },
+      },
+    ]
+  )
+}
+
 
 const ProductList: React.SFC = () => {
   const [products, setProducts] : any = useState([])
   let match = useRouteMatch()
+  let history = useHistory()
 
   useEffect(() => {
     const getApiResult = async () => {
@@ -16,7 +68,7 @@ const ProductList: React.SFC = () => {
     getApiResult()
   }, [])
 
-  const dataSource = products.map((product: { id: number, name: string, maker: string, price: number }) => (
+  const dataSource = products.map((product: IProduct) => (
     {
       key: product.id,
       name: product.name,
@@ -27,7 +79,7 @@ const ProductList: React.SFC = () => {
 
   return (
     <>
-      <Table dataSource={dataSource} columns={productColumns}/>
+      <Table dataSource={dataSource} columns={buildProductColumns(products, setProducts, history)}/>
       <button>
         <Link to={`${match.url}/new`}>新規作成</Link>
       </button>
