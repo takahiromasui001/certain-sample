@@ -5,7 +5,8 @@ import {
   useRouteMatch,
 } from "react-router-dom"
 import ProductList from './ProductList'
-import ProductForm from './ProductForm'
+import CreateProduct from './CreateProduct'
+import EditProduct from './EditProduct'
 
 const Product: React.SFC = () => {
   let match = useRouteMatch()
@@ -13,7 +14,10 @@ const Product: React.SFC = () => {
   return (
     <Switch>
       <Route path={`${match.path}/new`}>
-        <ProductForm/>
+        <CreateProduct/>
+      </Route>
+      <Route path={`${match.path}/:id`}>
+        <EditProduct/>
       </Route>
       <Route path={match.path}>
         <ProductList/>

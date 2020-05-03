@@ -1,7 +1,5 @@
 import React from 'react'
 import { Formik, Form, useField } from 'formik';
-import { useHistory } from 'react-router-dom'
-import axios from 'axios'
 
 const MyTextInput = ({ label, ...props }: any) => {
   const [field, meta] = useField(props)
@@ -16,28 +14,20 @@ const MyTextInput = ({ label, ...props }: any) => {
   )
 }
 
-const ProductForm: React.SFC = () => {
-  let history = useHistory()
+interface IProductForm {
+  onSubmit: any
+  initialValues?: { name: string, maker: string, price: string }
+}
+
+const ProductForm: React.SFC<IProductForm> = props => {
+  const { initialValues = { name: '', maker: '', price: '' }, onSubmit } = props
+
   return (
     <>
       <Formik
-        initialValues={{
-          name: '',
-          maker: '',
-          price: '',
-        }}
-        onSubmit={async (values, { setSubmitting }) => {
-          try {
-            await axios.post('http://localhost:3000/api/v1/products', {
-              name: values.name,
-              maker: values.maker,
-              price: values.price
-            })
-            history.push('/products')
-          } catch(error) {
-            history.push('/products/new')
-          }
-        }}
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        enableReinitialize={true}
       >
         <Form>
           <MyTextInput
