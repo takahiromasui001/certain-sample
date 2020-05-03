@@ -1,5 +1,5 @@
 import React from 'react';
-import ProductList from './ProductList'
+import Product from './Product'
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,7 +13,7 @@ function App() {
     <Router>
       <Switch>
         <Route path="/products">
-          <ProductList/>
+          <Product/>
         </Route>
         <Route path="/">
           <div>Test</div>

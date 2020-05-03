@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 import { Table } from 'antd'
 import { productColumns } from './constant'
 
-const ProductList = () => {
+const ProductList: React.SFC = () => {
   const [products, setProducts] : any = useState([])
 
   useEffect(() => {
