@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
-import { Table } from 'antd'
+import { Table, Button } from 'antd'
+import { Link, useRouteMatch } from 'react-router-dom'
 import { productColumns } from './constant'
 
-const ProductList = () => {
+const ProductList: React.SFC = () => {
   const [products, setProducts] : any = useState([])
+  let match = useRouteMatch()
 
   useEffect(() => {
     const getApiResult = async () => {
@@ -26,6 +28,9 @@ const ProductList = () => {
   return (
     <>
       <Table dataSource={dataSource} columns={productColumns}/>
+      <button>
+        <Link to={`${match.url}/new`}>新規作成</Link>
+      </button>
     </>
   )
 }

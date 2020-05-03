@@ -1,10 +1,24 @@
 import React from 'react';
-import ProductList from './ProductList'
+import Product from './Product'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom"
 
 function App() {
 
   return (
-    <ProductList/>
+    <Router>
+      <Switch>
+        <Route path="/products">
+          <Product/>
+        </Route>
+        <Route path="/">
+          <div>Test</div>
+        </Route>
+      </Switch>
+    </Router>
   )
 }
 
