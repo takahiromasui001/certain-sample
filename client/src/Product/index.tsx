@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   useRouteMatch,
@@ -9,7 +8,6 @@ import ProductList from './ProductList'
 
 const Product: React.SFC = () => {
   let match = useRouteMatch()
-  console.log(match.path)
 
   return (
     <Switch>
