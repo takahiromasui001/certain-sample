@@ -8,7 +8,7 @@ module Api
         # HACK: controllerではなくSerializerに書くべき内容
         specification_items = specification.specification_items.map { |item| 
           {
-            name: item.name, type: item.specification_type, product_name: item.product.name, maker: item.product.maker
+            id: item.id, name: item.name, type: item.specification_type, product_name: item.product.name, maker: item.product.maker
           }
         }
         response = {

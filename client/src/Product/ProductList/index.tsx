@@ -1,8 +1,7 @@
 import React, { useEffect, useState, Dispatch, SetStateAction } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { Table } from 'antd'
-import { Link, useRouteMatch } from 'react-router-dom'
-import { useHistory } from 'react-router-dom'
+import { Link, useRouteMatch, useHistory } from 'react-router-dom'
 import * as H from 'history';
 
 interface IProduct {
