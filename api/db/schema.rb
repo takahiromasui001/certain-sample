@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_03_013302) do
+ActiveRecord::Schema.define(version: 2020_05_04_132820) do
 
   create_table "products", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
@@ -20,4 +20,23 @@ ActiveRecord::Schema.define(version: 2020_05_03_013302) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "specification_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.integer "specification_type"
+    t.bigint "specification_id"
+    t.bigint "product_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_specification_items_on_product_id"
+    t.index ["specification_id"], name: "index_specification_items_on_specification_id"
+  end
+
+  create_table "specifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "specification_items", "products"
+  add_foreign_key "specification_items", "specifications"
 end
