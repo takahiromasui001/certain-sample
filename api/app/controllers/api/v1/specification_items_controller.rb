@@ -6,7 +6,7 @@ module Api
         specification = Specification.find(params[:specificationId])
         specification.specification_items.create(
           name: params[:name],
-          specification_type: params[:type],
+          specification_type: params[:type].to_i,
           product_id: params[:productId],
         )
         # Product.create(name: params[:name], maker: params[:maker], price: params[:price])
