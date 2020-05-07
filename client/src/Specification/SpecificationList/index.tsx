@@ -8,8 +8,6 @@ const SpecificationList: React.SFC = () => {
   const [specifications, setSpecifications] : any = useState([])
   let match = useRouteMatch()
   let history = useHistory()
-  // const params: { id: string } = useParams()
-  // const id = params.id
 
   useEffect(() => {
     const getApiResult = async () => {
@@ -59,6 +57,19 @@ const SpecificationList: React.SFC = () => {
         render: (record: any) => {
           return (
             <button onClick={() => {
+              history.push(`/specifications/${record.key}/specification_items`)
+            }}>
+              仕様書項目
+            </button>
+          )
+        },
+      },
+      {
+        title: '',
+        key: 'action',
+        render: (record: any) => {
+          return (
+            <button onClick={() => {
               history.push(`/specifications/${record.key}`)
             }}>
               編集
@@ -85,7 +96,7 @@ const SpecificationList: React.SFC = () => {
     <>
       <Table dataSource={dataSource} columns={specificationItemColumn}/>
       <button>
-        <Link to={`${match.url}/specification_items/new`}>新規作成</Link>
+        <Link to={`${match.url}/new`}>新規作成</Link>
       </button>
     </>
   )

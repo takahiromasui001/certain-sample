@@ -7,6 +7,10 @@ module Api
         render json: specification
       end
 
+      def create
+        Specification.create(name: params[:name])
+      end
+
       # GET	/api/v1/specifications/:id
       def show
         specification = Specification.find(params[:id])
