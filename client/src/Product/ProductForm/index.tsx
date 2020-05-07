@@ -31,22 +31,19 @@ const ProductForm: React.SFC<IProductForm> = props => {
       >
         <Form>
           <MyTextInput
-            label="First Name"
+            label="品名"
             name="name"
             type="text"
-            placeholder="品名"
           />
           <MyTextInput
-            label="Middle Name"
+            label="メーカー"
             name="maker"
             type="text"
-            placeholder="メーカー"
           />
           <MyTextInput
-            label="Last Name"
+            label="単価"
             name="price"
             type="text"
-            placeholder="価格"
           />
           <button type="submit">登録</button>
         </Form>
