@@ -10,21 +10,21 @@ module Api
           product_id: params[:productId],
         )
       end
+
       def destroy
         specification_item = SpecificationItem.find(params[:id])
         specification_item.destroy
       end
+
+      def show
+        specification_item = SpecificationItem.find(params[:id])
+        render json: specification_item
+      end
+
+      def update
+        specification_item = SpecificationItem.find(params[:id])
+        specification_item.update(name: params[:name], specification_type: params[:type], product_id: params[:productId])
+      end
     end
-
-    #   def show
-    #     product = Product.find(params[:id])
-    #     render json: product
-    #   end
-
-    #   def update
-    #     product = Product.find(params[:id])
-    #     product.update(name: params[:name], maker: params[:maker], price: params[:price])
-    #   end
-    # end
   end
 end

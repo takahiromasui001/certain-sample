@@ -73,7 +73,7 @@ const SpecificationItem: React.SFC = () => {
         render: (record: any) => {
           return (
             <button onClick={() => {
-              history.push(`/specifications/${record.key}`)
+              history.push(`/specifications/${specificationId}/specification_items/${record.key}`)
             }}>
               編集
             </button>
