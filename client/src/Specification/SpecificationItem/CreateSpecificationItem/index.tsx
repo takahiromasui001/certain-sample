@@ -16,9 +16,9 @@ const CreateSpecificationItem: React.SFC = () => {
         productId: values.productId,
         specificationId: id,
       })
-      history.push(`/specifications/${id}`)
+      history.push(`/specifications/${id}/specification_items`)
     } catch(error) {
-      history.push(`/specifications/${id}/new`)
+      history.push(`/specifications/${id}/specification_items/new`)
     }
   }
 

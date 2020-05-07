@@ -7,6 +7,9 @@ import {
 import SpecificationItem from './SpecificationItem'
 import CreateSpecificationItem from './SpecificationItem/CreateSpecificationItem'
 import EditSpecificationItem from './SpecificationItem/EditSpecificationItem'
+import SpecificationList from './SpecificationList'
+import CreateSpecification from './CreateSpecification'
+import EditSpecification from './EditSpecification'
 
 const Specification: React.SFC = () => {
   let match = useRouteMatch()
@@ -19,11 +22,17 @@ const Specification: React.SFC = () => {
       <Route path={`${match.path}/:id/specification_items/:specificationItemId`}>
         <EditSpecificationItem/>
       </Route>
-      <Route path={`${match.path}/:id`}>
+      <Route path={`${match.path}/:id/specification_items`}>
         <SpecificationItem/>
       </Route>
+      <Route path={`${match.path}/new`}>
+        <CreateSpecification/>
+      </Route>
+      <Route path={`${match.path}/:id`}>
+        <EditSpecification/>
+      </Route>
       <Route path={match.path}>
-        <div>Specification</div>
+        <SpecificationList/>
       </Route>
     </Switch>
   )

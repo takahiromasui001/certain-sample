@@ -27,7 +27,7 @@ const EditSpecificationItem: React.SFC = () => {
         productId: values.productId,
         specificationId: id,
       })
-      history.push(`/specifications/${params.id}`)
+      history.push(`/specifications/${params.id}/specification_items`)
     } catch(error) {
       history.push(`/specifications/${params.id}/specification_items/${id}`)
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Dispatch, SetStateAction } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { Table } from 'antd'
 import { Link, useRouteMatch } from 'react-router-dom'
@@ -17,7 +17,7 @@ const SpecificationItem: React.SFC = () => {
       setSpecification(result.data)
     }
     getApiResult()
-  }, [])
+  }, [specificationId])
 
   interface ISpecificationItem {
     id: string
@@ -42,7 +42,7 @@ const SpecificationItem: React.SFC = () => {
     await axios.delete(`http://localhost:3000/api/v1/specification_items/${id}`)
     const nextSpecificationItems: ISpecificationItem[] = specification.specification_items.filter((specificationItem: ISpecificationItem) => ( specificationItem.id !== id ))
     setSpecification({ ...specification, specification_items: nextSpecificationItems })
-    history.push(`/specifications/${specificationId}`)
+    history.push(`/specifications/${specificationId}/specification_items`)
   }
 
   const specificationItemColumn = 
@@ -99,7 +99,7 @@ const SpecificationItem: React.SFC = () => {
     <>
       <Table dataSource={dataSource} columns={specificationItemColumn}/>
       <button>
-        <Link to={`${match.url}/specification_items/new`}>新規作成</Link>
+        <Link to={`${match.url}/new`}>新規作成</Link>
       </button>
     </>
   )
