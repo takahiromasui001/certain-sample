@@ -16,6 +16,11 @@ module Api
         specification.destroy
       end
 
+      def update
+        specification = Specification.find(params[:id])
+        specification.update(name: params[:name])
+      end
+
       # GET	/api/v1/specifications/:id
       def show
         specification = Specification.find(params[:id])

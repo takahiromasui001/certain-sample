@@ -18,12 +18,11 @@ interface IProductForm {
   onSubmit: any
   initialValues?: {
     name: string,
-    updatedAt: string,
   }
 }
 
 const SpecificationForm: React.SFC<IProductForm> = props => {
-  const { initialValues = { name: '', updatedAt: '' }, onSubmit } = props
+  const { initialValues = { name: '' }, onSubmit } = props
 
   return (
     <>
