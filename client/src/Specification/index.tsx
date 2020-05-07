@@ -20,7 +20,7 @@ const Specification: React.SFC = () => {
       <Route path={`${match.path}/:id/specification_items/:specificationItemId`}>
         <EditSpecificationItem/>
       </Route>
-      <Route path={`${match.path}/:id`}>
+      <Route path={`${match.path}/:id/specification_items`}>
         <SpecificationItem/>
       </Route>
       <Route path={match.path}>
