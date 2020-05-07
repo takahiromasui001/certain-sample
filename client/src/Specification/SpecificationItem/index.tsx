@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Dispatch, SetStateAction } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { Table } from 'antd'
 import { Link, useRouteMatch } from 'react-router-dom'
@@ -17,7 +17,7 @@ const SpecificationItem: React.SFC = () => {
       setSpecification(result.data)
     }
     getApiResult()
-  }, [])
+  }, [specificationId])
 
   interface ISpecificationItem {
     id: string

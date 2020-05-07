@@ -1,6 +1,12 @@
 module Api
   module V1
     class SpecificationsController < ApplicationController
+      # GET /api/v1/specifications
+      def index
+        specification = Specification.all
+        render json: specification
+      end
+
       # GET	/api/v1/specifications/:id
       def show
         specification = Specification.find(params[:id])
