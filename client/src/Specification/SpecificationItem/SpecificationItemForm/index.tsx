@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, Form, useField } from 'formik';
+import axios from 'axios'
+import { IProduct } from 'src/Product/ProductList'
 
 const MyTextInput = ({ label, ...props }: any) => {
   const [field, meta] = useField(props)
@@ -40,6 +42,21 @@ const type = { inner: 0, outer: 1, inner_finishing: 2, equipment: 3 }
 
 const SpecificationItemForm: React.SFC<IProductForm> = props => {
   const { initialValues = { name: '', type: 0, productId: 1 }, onSubmit } = props
+  const [products, setProducts] = useState([])
+  
+  useEffect(() => {
+    const getProductList = async () => {
+      const response = await axios.get('http://localhost:3000/api/v1/products')
+      const result = response.data.map((product: IProduct) => ({ label: `${product.name}(${product.maker})`, id: product.id }))
+
+      setProducts(result)
+    }
+    getProductList()
+  })
+
+  const productList = products.map( (product: { label: string, id: string}) => (
+    <option key={product.id} value={product.id}>{product.label}</option>
+  ))
 
   return (
     <>
@@ -60,11 +77,9 @@ const SpecificationItemForm: React.SFC<IProductForm> = props => {
             <option value={type.equipment}>住宅設備・その他</option>
             <option value={type.inner_finishing}>内部仕上げ表</option>
           </MySelect>
-          <MyTextInput
-            label="プロダクト"
-            name="productId"
-            type="text"
-          />
+          <MySelect label="プロダクト" name="productId">
+            {productList}
+          </MySelect>
           <button type="submit">登録</button>
         </Form>
       </Formik>
