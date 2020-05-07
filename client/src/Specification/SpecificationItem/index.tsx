@@ -4,8 +4,8 @@ import { Table } from 'antd'
 import { Link, useRouteMatch } from 'react-router-dom'
 import { useHistory, useParams } from 'react-router-dom'
 
-const SpecificationDetail: React.SFC = () => {
-  const [specification, setSpecification] : any = useState({})
+const SpecificationItem: React.SFC = () => {
+  const [specificationItem, setSpecificationItem] : any = useState({})
   let match = useRouteMatch()
   let history = useHistory()
   const params: { id: string } = useParams()
@@ -14,7 +14,7 @@ const SpecificationDetail: React.SFC = () => {
   useEffect(() => {
     const getApiResult = async () => {
       const result: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/specifications/${id}`)
-      setSpecification(result.data)
+      setSpecificationItem(result.data)
     }
     getApiResult()
   }, [])
@@ -27,8 +27,8 @@ const SpecificationDetail: React.SFC = () => {
     maker: string
   }
 
-  const dataSource = Object.keys(specification).length === 0 ? [] :
-    specification.specification_items.map((item: ISpecificationItem) => (
+  const dataSource = Object.keys(specificationItem).length === 0 ? [] :
+  specificationItem.specification_items.map((item: ISpecificationItem) => (
       {
         key: item.id,
         name: item.name,
@@ -37,6 +37,13 @@ const SpecificationDetail: React.SFC = () => {
         maker: item.maker
       }
     ))
+
+  const deleteSpecificationItem = async (id: number) => {
+    await axios.delete(`http://localhost:3000/api/v1/products/${id}`)
+    const nextSpecificationItems: ISpecificationItem[] = specificationItem.filter((product: ISpecificationItem) => ( specificationItem.id !== id ))
+    setSpecificationItem(nextSpecificationItems)
+    history.push('/products')
+  }
 
   const specificationItemColumn = 
     [
@@ -60,16 +67,42 @@ const SpecificationDetail: React.SFC = () => {
         dataIndex: 'maker',
         key: 'maker',
       },
+      {
+        title: '',
+        key: 'action',
+        render: (record: any) => {
+          return (
+            <button onClick={() => {
+              history.push(`/products/${record.key}`)
+            }}>
+              編集
+            </button>
+          )
+        },
+      },
+      {
+        title: '',
+        key: 'action',
+        render: (record: any) => {
+          return (
+            <button onClick={() => {
+              deleteSpecificationItem(record.key) 
+            }}>
+              削除
+            </button>
+          )
+        },
+      },
     ]
 
   return (
     <>
       <Table dataSource={dataSource} columns={specificationItemColumn}/>
       <button>
-        <Link to={`${match.url}/new`}>新規作成</Link>
+        <Link to={`${match.url}/specification_items/new`}>新規作成</Link>
       </button>
     </>
   )
 }
 
-export default SpecificationDetail
+export default SpecificationItem
