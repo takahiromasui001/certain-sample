@@ -5,16 +5,16 @@ import { Link, useRouteMatch } from 'react-router-dom'
 import { useHistory, useParams } from 'react-router-dom'
 
 const SpecificationItem: React.SFC = () => {
-  const [specificationItem, setSpecificationItem] : any = useState({})
+  const [specification, setSpecification] : any = useState({})
   let match = useRouteMatch()
   let history = useHistory()
   const params: { id: string } = useParams()
-  const id = params.id
+  const specificationId = params.id
 
   useEffect(() => {
     const getApiResult = async () => {
-      const result: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/specifications/${id}`)
-      setSpecificationItem(result.data)
+      const result: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/specifications/${specificationId}`)
+      setSpecification(result.data)
     }
     getApiResult()
   }, [])
@@ -27,8 +27,8 @@ const SpecificationItem: React.SFC = () => {
     maker: string
   }
 
-  const dataSource = Object.keys(specificationItem).length === 0 ? [] :
-  specificationItem.specification_items.map((item: ISpecificationItem) => (
+  const dataSource = Object.keys(specification).length === 0 ? [] :
+  specification.specification_items.map((item: ISpecificationItem) => (
       {
         key: item.id,
         name: item.name,
@@ -38,11 +38,11 @@ const SpecificationItem: React.SFC = () => {
       }
     ))
 
-  const deleteSpecificationItem = async (id: number) => {
-    await axios.delete(`http://localhost:3000/api/v1/products/${id}`)
-    const nextSpecificationItems: ISpecificationItem[] = specificationItem.filter((product: ISpecificationItem) => ( specificationItem.id !== id ))
-    setSpecificationItem(nextSpecificationItems)
-    history.push('/products')
+  const deleteSpecificationItem = async (id: string) => {
+    await axios.delete(`http://localhost:3000/api/v1/specification_items/${id}`)
+    const nextSpecificationItems: ISpecificationItem[] = specification.specification_items.filter((specificationItem: ISpecificationItem) => ( specificationItem.id !== id ))
+    setSpecification({ ...specification, specification_items: nextSpecificationItems })
+    history.push(`/specifications/${specificationId}`)
   }
 
   const specificationItemColumn = 
@@ -73,7 +73,7 @@ const SpecificationItem: React.SFC = () => {
         render: (record: any) => {
           return (
             <button onClick={() => {
-              history.push(`/products/${record.key}`)
+              history.push(`/specifications/${record.key}`)
             }}>
               編集
             </button>

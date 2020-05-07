@@ -10,11 +10,11 @@ module Api
           product_id: params[:productId],
         )
       end
+      def destroy
+        specification_item = SpecificationItem.find(params[:id])
+        specification_item.destroy
+      end
     end
-    #   def destroy
-    #     product = Product.find(params[:id])
-    #     product.destroy
-    #   end
 
     #   def show
     #     product = Product.find(params[:id])
