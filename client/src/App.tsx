@@ -12,13 +12,13 @@ import Sidebar from './Sidebar'
 
 function App() {
   return (
-    <Layout>
-      <Header />
+    <Router>
       <Layout>
-        <Sidebar/>
+        <Header />
         <Layout>
-          <div>
-            <Router>
+          <Sidebar/>
+          <Layout>
+            <div>
               <Switch>
                 <Route path="/products">
                   <Product/>
@@ -30,11 +30,11 @@ function App() {
                   <Specification/>
                 </Route>
               </Switch>
-            </Router>
-          </div>
+            </div>
+          </Layout>
         </Layout>
       </Layout>
-    </Layout>
+    </Router>
   )
 }
 
