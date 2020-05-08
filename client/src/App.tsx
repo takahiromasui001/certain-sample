@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,27 +8,32 @@ import { Layout } from 'antd'
 import Product from './Product'
 import Specification from './Specification'
 import Header from './Header'
+import Sidebar from './Sidebar'
 
 function App() {
-
   return (
     <Layout>
       <Header />
-      <div>
-        <Router>
-          <Switch>
-            <Route path="/products">
-              <Product/>
-            </Route>
-            <Route path="/specifications">
-              <Specification/>
-            </Route>
-            <Route path="/">
-              <div>Test</div>
-            </Route>
-          </Switch>
-        </Router>
-      </div>
+      <Layout>
+        <Sidebar/>
+        <Layout>
+          <div>
+            <Router>
+              <Switch>
+                <Route path="/products">
+                  <Product/>
+                </Route>
+                <Route path="/specifications">
+                  <Specification/>
+                </Route>
+                <Route path="/">
+                  <Specification/>
+                </Route>
+              </Switch>
+            </Router>
+          </div>
+        </Layout>
+      </Layout>
     </Layout>
   )
 }
