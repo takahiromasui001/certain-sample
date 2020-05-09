@@ -3,12 +3,14 @@ import axios from 'axios'
 import { useHistory, useParams } from 'react-router-dom'
 import SpecificationItemForm from '../../components/SpecificationItemForm'
 import PageTitle from 'src/shared/components/PageTitle'
+import useProductList from '../../hooks/useProductList'
 
 const CreateSpecificationItem: React.SFC = () => {
   let history = useHistory()
   const params: { id: string } = useParams()
   const id = params.id
 
+  const products = useProductList()
   const onSubmit = async (values: { name: string, type: number, productId: number, specificationId: number }, { setSubmitting }: any) => {
     try {
       await axios.post(`http://localhost:3000/api/v1/specification_items`, {
@@ -26,7 +28,7 @@ const CreateSpecificationItem: React.SFC = () => {
   return(
     <>
       <PageTitle>仕様書項目作成</PageTitle>
-      <SpecificationItemForm onSubmit={onSubmit}/>
+      <SpecificationItemForm onSubmit={onSubmit} products={products}/>
     </>
   )
 }

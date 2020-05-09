@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { useHistory, useParams } from 'react-router-dom'
 import SpecificationItemForm from '../../components/SpecificationItemForm'
 import PageTitle from 'src/shared/components/PageTitle'
+import useProductList from '../../hooks/useProductList'
 
 const EditSpecificationItem: React.SFC = () => {
   const [currentSpecificationItem, setCurrentSpecificationItem] = useState({ name: '', type: '', productId: '' })
   let history = useHistory()
   const params: { id: string, specificationItemId: string } = useParams();
   const id = params.specificationItemId
+  const products = useProductList()
 
   useEffect(() => {
     const getSpecificationItem = async () => {
@@ -37,7 +39,7 @@ const EditSpecificationItem: React.SFC = () => {
   return(
     <>
       <PageTitle>仕様書項目編集</PageTitle>
-      <SpecificationItemForm onSubmit={onSubmit} initialValues={currentSpecificationItem}/>
+      <SpecificationItemForm onSubmit={onSubmit} initialValues={currentSpecificationItem} products={products}/>
     </>
   )
 }

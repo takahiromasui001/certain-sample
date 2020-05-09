@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Formik, Form, useField } from 'formik';
 import axios from 'axios'
-import { IProduct } from 'src/Product/pages/ProductList'
 
 const MyTextInput = ({ label, ...props }: any) => {
   const [field, meta] = useField(props)
@@ -31,6 +30,7 @@ const MySelect = ({ label, ...props }: any) => {
 
 interface IProductForm {
   onSubmit: any
+  products: any[]
   initialValues?: {
     name: string,
     type: string,
@@ -41,18 +41,18 @@ interface IProductForm {
 const type = { inner: 0, outer: 1, inner_finishing: 2, equipment: 3 }
 
 const SpecificationItemForm: React.SFC<IProductForm> = props => {
-  const { initialValues = { name: '', type: 0, productId: 1 }, onSubmit } = props
-  const [products, setProducts] = useState([])
+  const { initialValues = { name: '', type: 0, productId: 1 }, onSubmit, products } = props
+  // const [products, setProducts] = useState([])
 
-  useEffect(() => {
-    const getProductList = async () => {
-      const response = await axios.get('http://localhost:3000/api/v1/products')
-      const result = response.data.map((product: IProduct) => ({ label: `${product.name}(${product.maker})`, id: product.id }))
+  // useEffect(() => {
+  //   const getProductList = async () => {
+  //     const response = await axios.get('http://localhost:3000/api/v1/products')
+  //     const result = response.data.map((product: IProduct) => ({ label: `${product.name}(${product.maker})`, id: product.id }))
 
-      setProducts(result)
-    }
-    getProductList()
-  }, [])
+  //     setProducts(result)
+  //   }
+  //   getProductList()
+  // }, [])
 
   const productList = products.map( (product: { label: string, id: string}) => (
     <option key={product.id} value={product.id}>{product.label}</option>
