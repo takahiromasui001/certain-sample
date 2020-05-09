@@ -32,7 +32,10 @@ const EditProduct: React.SFC = () => {
   }
 
   return(
-    <ProductForm onSubmit={onSubmit} initialValues={currentProduct}/>
+    <>
+      <h1>商品編集</h1>
+      <ProductForm onSubmit={onSubmit} initialValues={currentProduct}/>
+    </>
   )
 }
 

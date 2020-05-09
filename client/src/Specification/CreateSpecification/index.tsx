@@ -18,7 +18,10 @@ const CreateSpecification: React.SFC = () => {
   }
 
   return(
-    <SpecificationForm onSubmit={onSubmit}/>
+    <>
+      <h1>仕様書作成</h1>
+      <SpecificationForm onSubmit={onSubmit}/>
+    </>
   )
 }
 

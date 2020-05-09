@@ -23,7 +23,10 @@ const CreateSpecificationItem: React.SFC = () => {
   }
 
   return(
-    <SpecificationItemForm onSubmit={onSubmit}/>
+    <>
+      <h1>仕様書項目作成</h1>
+      <SpecificationItemForm onSubmit={onSubmit}/>
+    </>
   )
 }
 
