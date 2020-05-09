@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { useHistory, useParams } from 'react-router-dom'
-import SpecificationForm from '../SpecificationForm'
+import SpecificationForm from '../../components/SpecificationForm'
 import PageTitle from 'src/shared/PageTitle'
 
 const CreateSpecification: React.SFC = () => {

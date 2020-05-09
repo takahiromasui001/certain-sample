@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { useHistory, useParams } from 'react-router-dom'
-import ProductForm from '../ProductForm'
+import ProductForm from '../../components/ProductForm'
 import PageTitle from 'src/shared/PageTitle'
 
 const EditProduct: React.SFC = () => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Formik, Form, useField } from 'formik';
 import axios from 'axios'
-import { IProduct } from 'src/Product/ProductList'
+import { IProduct } from 'src/Product/pages/ProductList'
 
 const MyTextInput = ({ label, ...props }: any) => {
   const [field, meta] = useField(props)

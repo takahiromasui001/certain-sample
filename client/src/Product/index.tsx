@@ -4,9 +4,9 @@ import {
   Route,
   useRouteMatch,
 } from "react-router-dom"
-import ProductList from './ProductList'
-import CreateProduct from './CreateProduct'
-import EditProduct from './EditProduct'
+import ProductList from './pages/ProductList'
+import CreateProduct from './pages/CreateProduct'
+import EditProduct from './pages/EditProduct'
 
 const Product: React.SFC = () => {
   let match = useRouteMatch()
