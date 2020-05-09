@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { Table } from 'antd'
-import { Link, useRouteMatch } from 'react-router-dom'
-import { useHistory, useParams } from 'react-router-dom'
+import { useRouteMatch } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import PageTitle from 'src/shared/components/PageTitle'
+import TableHeader from '../../components/TableHeader'
 
 const SpecificationList: React.SFC = () => {
   const [specifications, setSpecifications] : any = useState([])
   let match = useRouteMatch()
   let history = useHistory()
+
+  const onCreateClick = () => history.push(`${match.url}/new`)
 
   useEffect(() => {
     const getApiResult = async () => {
@@ -96,10 +99,8 @@ const SpecificationList: React.SFC = () => {
   return (
     <>
       <PageTitle>仕様書一覧</PageTitle>
+      <TableHeader onCreateClick={onCreateClick} />
       <Table dataSource={dataSource} columns={specificationItemColumn}/>
-      <button>
-        <Link to={`${match.url}/new`}>新規作成</Link>
-      </button>
     </>
   )
 }
