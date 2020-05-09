@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { useHistory, useParams } from 'react-router-dom'
 import SpecificationItemForm from '../../components/SpecificationItemForm'
-import PageTitle from 'src/shared/PageTitle'
+import PageTitle from 'src/shared/components/PageTitle'
 
 const EditSpecificationItem: React.SFC = () => {
   const [currentSpecificationItem, setCurrentSpecificationItem] = useState({ name: '', type: '', productId: '' })

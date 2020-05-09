@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { useHistory, useParams } from 'react-router-dom'
 import SpecificationForm from '../../components/SpecificationForm'
-import PageTitle from 'src/shared/PageTitle'
+import PageTitle from 'src/shared/components/PageTitle'
 
 const CreateSpecification: React.SFC = () => {
   let history = useHistory()

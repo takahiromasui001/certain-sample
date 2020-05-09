@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 import { Table } from 'antd'
 import { Link, useRouteMatch } from 'react-router-dom'
 import { useHistory, useParams } from 'react-router-dom'
-import PageTitle from 'src/shared/PageTitle'
+import PageTitle from 'src/shared/components/PageTitle'
 
 const SpecificationItemList: React.SFC = () => {
   const [specification, setSpecification] : any = useState({})

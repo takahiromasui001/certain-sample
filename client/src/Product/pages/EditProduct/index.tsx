@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { useHistory, useParams } from 'react-router-dom'
 import ProductForm from '../../components/ProductForm'
-import PageTitle from 'src/shared/PageTitle'
+import PageTitle from 'src/shared/components/PageTitle'
 
 const EditProduct: React.SFC = () => {
   const [currentProduct, setCurrentProduct] = useState({ name: '', maker: '', price: '' })

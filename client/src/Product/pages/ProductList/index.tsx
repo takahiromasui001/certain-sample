@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 import { Table } from 'antd'
 import { Link, useRouteMatch, useHistory } from 'react-router-dom'
 import * as H from 'history';
-import PageTitle from 'src/shared/PageTitle'
+import PageTitle from 'src/shared/components/PageTitle'
 
 export interface IProduct {
   id: number
