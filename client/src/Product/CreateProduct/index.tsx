@@ -19,7 +19,10 @@ const CreateProduct: React.SFC = () => {
   }
 
   return(
-    <ProductForm onSubmit={onSubmit}/>
+    <>
+      <h1>商品作成</h1>
+      <ProductForm onSubmit={onSubmit}/>
+    </>
   )
 }
 

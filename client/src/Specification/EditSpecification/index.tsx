@@ -30,7 +30,10 @@ const EditSpecification: React.SFC = () => {
   }
 
   return(
-    <SpecificationForm onSubmit={onSubmit} initialValues={currentSpecification}/>
+    <>
+      <h1>仕様書作成</h1>
+      <SpecificationForm onSubmit={onSubmit} initialValues={currentSpecification}/>
+    </>
   )
 }
 

@@ -97,6 +97,7 @@ const SpecificationItem: React.SFC = () => {
 
   return (
     <>
+      <h1>仕様書項目一覧</h1>
       <Table dataSource={dataSource} columns={specificationItemColumn}/>
       <button>
         <Link to={`${match.url}/new`}>新規作成</Link>

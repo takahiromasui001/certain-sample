@@ -90,6 +90,7 @@ const ProductList: React.SFC = () => {
 
   return (
     <>
+      <h1>商品一覧</h1>
       <Table dataSource={dataSource} columns={buildProductColumns(products, setProducts, history)}/>
       <button>
         <Link to={`${match.url}/new`}>新規作成</Link>
