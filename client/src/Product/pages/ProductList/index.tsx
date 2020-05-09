@@ -1,9 +1,10 @@
 import React, { useEffect, useState, Dispatch, SetStateAction } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { Table } from 'antd'
-import { Link, useRouteMatch, useHistory } from 'react-router-dom'
+import { useRouteMatch, useHistory } from 'react-router-dom'
 import * as H from 'history';
 import PageTitle from 'src/shared/components/PageTitle'
+import TableHeader from '../../components/TableHeader'
 
 export interface IProduct {
   id: number
@@ -72,6 +73,8 @@ const ProductList: React.SFC = () => {
   let match = useRouteMatch()
   let history = useHistory()
 
+  const onCreateClick = () => history.push(`${match.url}/new`)
+
   useEffect(() => {
     const getApiResult = async () => {
       const result: AxiosResponse = await axios.get('http://localhost:3000/api/v1/products')
@@ -92,10 +95,8 @@ const ProductList: React.SFC = () => {
   return (
     <>
       <PageTitle>商品一覧</PageTitle>
+      <TableHeader onCreateClick={onCreateClick} />
       <Table dataSource={dataSource} columns={buildProductColumns(products, setProducts, history)}/>
-      <button>
-        <Link to={`${match.url}/new`}>新規作成</Link>
-      </button>
     </>
   )
 }
