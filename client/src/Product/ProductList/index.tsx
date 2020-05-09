@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 import { Table } from 'antd'
 import { Link, useRouteMatch, useHistory } from 'react-router-dom'
 import * as H from 'history';
+import PageTitle from 'src/shared/PageTitle'
 
 export interface IProduct {
   id: number
@@ -90,7 +91,7 @@ const ProductList: React.SFC = () => {
 
   return (
     <>
-      <h1>商品一覧</h1>
+      <PageTitle>商品一覧</PageTitle>
       <Table dataSource={dataSource} columns={buildProductColumns(products, setProducts, history)}/>
       <button>
         <Link to={`${match.url}/new`}>新規作成</Link>

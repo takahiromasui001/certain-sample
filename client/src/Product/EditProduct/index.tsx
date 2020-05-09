@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { useHistory, useParams } from 'react-router-dom'
 import ProductForm from '../ProductForm'
+import PageTitle from 'src/shared/PageTitle'
 
 const EditProduct: React.SFC = () => {
   const [currentProduct, setCurrentProduct] = useState({ name: '', maker: '', price: '' })
@@ -33,7 +34,7 @@ const EditProduct: React.SFC = () => {
 
   return(
     <>
-      <h1>商品編集</h1>
+      <PageTitle>商品編集</PageTitle>
       <ProductForm onSubmit={onSubmit} initialValues={currentProduct}/>
     </>
   )

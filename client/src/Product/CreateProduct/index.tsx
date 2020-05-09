@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import ProductForm from '../ProductForm'
+import PageTitle from 'src/shared/PageTitle'
 
 const CreateProduct: React.SFC = () => {
   let history = useHistory()
@@ -20,7 +21,7 @@ const CreateProduct: React.SFC = () => {
 
   return(
     <>
-      <h1>商品作成</h1>
+      <PageTitle>商品作成</PageTitle>
       <ProductForm onSubmit={onSubmit}/>
     </>
   )

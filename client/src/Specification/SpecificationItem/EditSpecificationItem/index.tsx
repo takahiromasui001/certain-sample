@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { useHistory, useParams } from 'react-router-dom'
 import SpecificationItemForm from '../SpecificationItemForm'
+import PageTitle from 'src/shared/PageTitle'
 
 const EditSpecificationItem: React.SFC = () => {
   const [currentSpecificationItem, setCurrentSpecificationItem] = useState({ name: '', type: '', productId: '' })
@@ -35,7 +36,7 @@ const EditSpecificationItem: React.SFC = () => {
 
   return(
     <>
-      <h1>仕様書項目編集</h1>
+      <PageTitle>仕様書項目編集</PageTitle>
       <SpecificationItemForm onSubmit={onSubmit} initialValues={currentSpecificationItem}/>
     </>
   )

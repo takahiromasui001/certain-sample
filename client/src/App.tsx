@@ -14,7 +14,11 @@ import Sidebar from './Sidebar'
 const { Content } = Layout
 
 const StyledContent = styled(Content)`
-  padding: 30px 50px;
+  padding: 10px 50px;
+`
+
+const SidebarWrapper = styled.div`
+  padding-top: 5px;
 `
 
 function App() {
@@ -23,7 +27,9 @@ function App() {
       <Layout>
         <Header />
         <Layout>
-          <Sidebar/>
+          <SidebarWrapper>
+            <Sidebar/>
+          </SidebarWrapper>
           <Layout>
             <StyledContent >
               <Switch>

@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { useHistory, useParams } from 'react-router-dom'
 import SpecificationItemForm from '../SpecificationItemForm'
+import PageTitle from 'src/shared/PageTitle'
 
 const CreateSpecificationItem: React.SFC = () => {
   let history = useHistory()
@@ -24,7 +25,7 @@ const CreateSpecificationItem: React.SFC = () => {
 
   return(
     <>
-      <h1>仕様書項目作成</h1>
+      <PageTitle>仕様書項目作成</PageTitle>
       <SpecificationItemForm onSubmit={onSubmit}/>
     </>
   )
