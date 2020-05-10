@@ -30,10 +30,14 @@ const EditSpecification: React.SFC = () => {
     }
   }
 
+  const onCancel = () => {
+    history.push('/products')
+  }
+
   return(
     <>
       <PageTitle>仕様書作成</PageTitle>
-      <SpecificationForm onSubmit={onSubmit} initialValues={currentSpecification}/>
+      <SpecificationForm onSubmit={onSubmit} initialValues={currentSpecification} onCancel={onCancel}/>
     </>
   )
 }

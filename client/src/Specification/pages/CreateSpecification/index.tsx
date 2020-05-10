@@ -18,10 +18,14 @@ const CreateSpecification: React.SFC = () => {
     }
   }
 
+  const onCancel = () => {
+    history.push('/products')
+  }
+
   return(
     <>
       <PageTitle>仕様書作成</PageTitle>
-      <SpecificationForm onSubmit={onSubmit}/>
+      <SpecificationForm onSubmit={onSubmit} onCancel={onCancel}/>
     </>
   )
 }

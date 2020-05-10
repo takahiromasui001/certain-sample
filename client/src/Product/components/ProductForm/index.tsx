@@ -1,6 +1,6 @@
 import React from 'react'
 import { Formik, Form, useField } from 'formik'
-import { FormContainer, FormItemWrapper, Input, Label, ButtonWrapper, StyledButton } from './style'
+import { FormContainer, FormItemWrapper, Input, Label, ButtonWrapper, StyledButton } from '../../../shared/components/FormStyle'
 
 
 const MyTextInput = ({ label, ...props }: any) => {
