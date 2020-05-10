@@ -6,9 +6,20 @@ import {
 } from "react-router-dom"
 import { Layout } from 'antd'
 import Product from './Product'
+import styled from 'styled-components'
 import Specification from './Specification'
 import Header from './Header'
 import Sidebar from './Sidebar'
+
+const { Content } = Layout
+
+const StyledContent = styled(Content)`
+  padding: 10px 50px;
+`
+
+const SidebarWrapper = styled.div`
+  padding-top: 5px;
+`
 
 function App() {
   return (
@@ -16,9 +27,11 @@ function App() {
       <Layout>
         <Header />
         <Layout>
-          <Sidebar/>
+          <SidebarWrapper>
+            <Sidebar/>
+          </SidebarWrapper>
           <Layout>
-            <div>
+            <StyledContent >
               <Switch>
                 <Route path="/products">
                   <Product/>
@@ -30,7 +43,7 @@ function App() {
                   <Specification/>
                 </Route>
               </Switch>
-            </div>
+            </StyledContent>
           </Layout>
         </Layout>
       </Layout>
