@@ -37,7 +37,7 @@ const EditSpecificationItem: React.SFC = () => {
   }
 
   const onCancel = () => {
-    history.push('/products')
+    history.push(`/specifications/${params.id}/specification_items`)
   }
 
   return(

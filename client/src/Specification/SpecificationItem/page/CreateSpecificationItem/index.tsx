@@ -26,7 +26,7 @@ const CreateSpecificationItem: React.SFC = () => {
   }
 
   const onCancel = () => {
-    history.push('/products')
+    history.push(`/specifications/${id}/specification_items`)
   }
 
   return(

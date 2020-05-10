@@ -19,7 +19,7 @@ const CreateSpecification: React.SFC = () => {
   }
 
   const onCancel = () => {
-    history.push('/products')
+    history.push('/specifications')
   }
 
   return(
