@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Button } from 'antd'
+import { Button, Select as AntdSelect } from 'antd'
 
 export const FormContainer = styled.div`
   width: 93%;
@@ -12,6 +12,22 @@ export const FormItemWrapper = styled.div`
 
 export const Input = styled.input`
   width: calc(100% - 100px);
+`
+
+export const Select = styled.select`
+  width: calc(100% - 100px);
+  background-color: #fff;
+  height: 32px;
+  padding: 0 11px;
+  border: 1px solid #d9d9d9;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  background-image: url(/angle-down.svg);
+  background-repeat: no-repeat;
+  background-size: 15px 15px;
+  background-position: right 10px center;
 `
 
 export const Label = styled.label`

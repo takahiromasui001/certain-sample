@@ -36,10 +36,14 @@ const EditSpecificationItem: React.SFC = () => {
     }
   }
 
+  const onCancel = () => {
+    history.push('/products')
+  }
+
   return(
     <>
       <PageTitle>仕様書項目編集</PageTitle>
-      <SpecificationItemForm onSubmit={onSubmit} initialValues={currentSpecificationItem} products={products}/>
+      <SpecificationItemForm onSubmit={onSubmit} onCancel={onCancel} initialValues={currentSpecificationItem} products={products}/>
     </>
   )
 }

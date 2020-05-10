@@ -25,10 +25,14 @@ const CreateSpecificationItem: React.SFC = () => {
     }
   }
 
+  const onCancel = () => {
+    history.push('/products')
+  }
+
   return(
     <>
       <PageTitle>仕様書項目作成</PageTitle>
-      <SpecificationItemForm onSubmit={onSubmit} products={products}/>
+      <SpecificationItemForm onSubmit={onSubmit} onCancel={onCancel} products={products}/>
     </>
   )
 }

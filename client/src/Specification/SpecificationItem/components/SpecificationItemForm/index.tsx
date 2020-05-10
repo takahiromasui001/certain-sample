@@ -1,35 +1,36 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Formik, Form, useField } from 'formik';
-import axios from 'axios'
+import { FormContainer, FormItemWrapper, Input, Select, Label, ButtonWrapper, StyledButton } from 'src/shared/components/FormStyle'
 
 const MyTextInput = ({ label, ...props }: any) => {
   const [field, meta] = useField(props)
   return (
-    <div>
-      <label htmlFor={props.id || props.name}>{label}</label>
-      <input className="text-input" {...field} {...props} />
+    <FormItemWrapper>
+      <Label htmlFor={props.id || props.name}>{label}</Label>
+      <Input className="text-input" {...field} {...props} />
       {meta.touched && meta.error ? (
         <div className="error">{meta.error}</div>
       ) : null}
-    </div>
+    </FormItemWrapper>
   )
 }
 
 const MySelect = ({ label, ...props }: any) => {
   const [field, meta] = useField(props);
   return (
-    <>
-      <label htmlFor={props.id || props.name}>{label}</label>
-      <select {...field} {...props} />
+    <FormItemWrapper>
+      <Label htmlFor={props.id || props.name}>{label}</Label>
+      <Select {...field} {...props} />
       {meta.touched && meta.error ? (
         <div className="error">{meta.error}</div>
       ) : null}
-    </>
+    </FormItemWrapper>
   );
 };
 
 interface IProductForm {
   onSubmit: any
+  onCancel: any
   products: any[]
   initialValues?: {
     name: string,
@@ -41,25 +42,13 @@ interface IProductForm {
 const type = { inner: 0, outer: 1, inner_finishing: 2, equipment: 3 }
 
 const SpecificationItemForm: React.SFC<IProductForm> = props => {
-  const { initialValues = { name: '', type: 0, productId: 1 }, onSubmit, products } = props
-  // const [products, setProducts] = useState([])
-
-  // useEffect(() => {
-  //   const getProductList = async () => {
-  //     const response = await axios.get('http://localhost:3000/api/v1/products')
-  //     const result = response.data.map((product: IProduct) => ({ label: `${product.name}(${product.maker})`, id: product.id }))
-
-  //     setProducts(result)
-  //   }
-  //   getProductList()
-  // }, [])
-
+  const { initialValues = { name: '', type: 0, productId: 1 }, onSubmit, onCancel, products } = props
   const productList = products.map( (product: { label: string, id: string}) => (
     <option key={product.id} value={product.id}>{product.label}</option>
   ))
 
   return (
-    <>
+    <FormContainer>
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
@@ -80,10 +69,13 @@ const SpecificationItemForm: React.SFC<IProductForm> = props => {
           <MySelect label="プロダクト" name="productId">
             {productList}
           </MySelect>
-          <button type="submit">登録</button>
+          <ButtonWrapper>
+            <StyledButton type="primary" htmlType="submit">登録</StyledButton>
+            <StyledButton onClick={onCancel}>キャンセル</StyledButton>
+          </ButtonWrapper>
         </Form>
       </Formik>
-    </>
+    </FormContainer>
   )
 }
 
