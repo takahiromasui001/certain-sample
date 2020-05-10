@@ -32,10 +32,14 @@ const EditProduct: React.SFC = () => {
     }
   }
 
+  const onCancel = () => {
+    history.push('/products')
+  }
+
   return(
     <>
       <PageTitle>商品編集</PageTitle>
-      <ProductForm onSubmit={onSubmit} initialValues={currentProduct}/>
+      <ProductForm onSubmit={onSubmit} initialValues={currentProduct} onCancel={onCancel}/>
     </>
   )
 }

@@ -1,29 +1,32 @@
 import React from 'react'
-import { Formik, Form, useField } from 'formik';
+import { Formik, Form, useField } from 'formik'
+import { FormContainer, FormItemWrapper, Input, Label, ButtonWrapper, StyledButton } from './style'
+
 
 const MyTextInput = ({ label, ...props }: any) => {
   const [field, meta] = useField(props)
   return (
-    <div>
-      <label htmlFor={props.id || props.name}>{label}</label>
-      <input className="text-input" {...field} {...props} />
+    <FormItemWrapper>
+      <Label htmlFor={props.id || props.name}>{label}</Label>
+      <Input className="text-input" {...field} {...props} />
       {meta.touched && meta.error ? (
         <div className="error">{meta.error}</div>
       ) : null}
-    </div>
+    </FormItemWrapper>
   )
 }
 
 interface IProductForm {
   onSubmit: any
+  onCancel: any
   initialValues?: { name: string, maker: string, price: string }
 }
 
 const ProductForm: React.SFC<IProductForm> = props => {
-  const { initialValues = { name: '', maker: '', price: '' }, onSubmit } = props
+  const { initialValues = { name: '', maker: '', price: '' }, onSubmit, onCancel } = props
 
   return (
-    <>
+    <FormContainer>
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
@@ -45,10 +48,13 @@ const ProductForm: React.SFC<IProductForm> = props => {
             name="price"
             type="text"
           />
-          <button type="submit">登録</button>
+          <ButtonWrapper>
+            <StyledButton type="primary" htmlType="submit">登録</StyledButton>
+            <StyledButton onClick={onCancel}>キャンセル</StyledButton>
+          </ButtonWrapper>
         </Form>
       </Formik>
-    </>
+    </FormContainer>
   )
 }
 

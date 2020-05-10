@@ -19,10 +19,14 @@ const CreateProduct: React.SFC = () => {
     }
   }
 
+  const onCancel = () => {
+    history.push('/products')
+  }
+
   return(
     <>
       <PageTitle>商品作成</PageTitle>
-      <ProductForm onSubmit={onSubmit}/>
+      <ProductForm onSubmit={onSubmit} onCancel={onCancel}/>
     </>
   )
 }
