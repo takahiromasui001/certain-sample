@@ -39,7 +39,7 @@ interface IProductForm {
   }
 }
 
-const type = { inner: 0, outer: 1, inner_finishing: 2, equipment: 3 }
+const type = { inner: '0', outer: '1', inner_finishing: '2', equipment: '3' }
 
 const SpecificationItemForm: React.SFC<IProductForm> = props => {
   const { initialValues = { name: '', type: 0, productId: 1 }, onSubmit, onCancel, products } = props

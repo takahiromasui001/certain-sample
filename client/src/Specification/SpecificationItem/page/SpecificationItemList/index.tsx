@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
-import { Table } from 'antd'
+import { Table, Tabs } from 'antd'
 import { useRouteMatch } from 'react-router-dom'
 import { useHistory, useParams } from 'react-router-dom'
 import PageTitle from 'src/shared/components/PageTitle'
 import TableHeader from '../../components/TableHeader'
+
+const { TabPane } = Tabs
 
 const SpecificationItemList: React.SFC = () => {
   const [specification, setSpecification] : any = useState({})
@@ -32,7 +34,7 @@ const SpecificationItemList: React.SFC = () => {
     maker: string
   }
 
-  const dataSource = Object.keys(specification).length === 0 ? [] :
+  const dataSourceOrg = Object.keys(specification).length === 0 ? [] :
   specification.specification_items.map((item: ISpecificationItem) => (
       {
         key: item.id,
@@ -43,6 +45,13 @@ const SpecificationItemList: React.SFC = () => {
       }
     ))
 
+  const dataSourceInner = dataSourceOrg.filter((item: ISpecificationItem ) => item.type === "inner")
+  const dataSourceOuter = dataSourceOrg.filter((item: ISpecificationItem ) => item.type === "outer")
+  const dataSourceInnerFinishing = dataSourceOrg.filter((item: ISpecificationItem ) => item.type === "inner_finishing")
+  const dataSourceInnerEquipment = dataSourceOrg.filter((item: ISpecificationItem ) => item.type === "equipment")
+
+  console.log(dataSourceInner)
+  console.log(dataSourceInnerFinishing)
   const deleteSpecificationItem = async (id: string) => {
     await axios.delete(`http://localhost:3000/api/v1/specification_items/${id}`)
     const nextSpecificationItems: ISpecificationItem[] = specification.specification_items.filter((specificationItem: ISpecificationItem) => ( specificationItem.id !== id ))
@@ -56,11 +65,6 @@ const SpecificationItemList: React.SFC = () => {
         title: '項目名',
         dataIndex: 'name',
         key: 'name',
-      },
-      {
-        title: 'タイプ',
-        dataIndex: 'type',
-        key: 'type',
       },
       {
         title: '品番・形状等',
@@ -100,11 +104,27 @@ const SpecificationItemList: React.SFC = () => {
       },
     ]
 
+  const callback = (key: string) => {
+    console.log(key);
+  }
   return (
     <>
       <PageTitle>仕様書項目一覧</PageTitle>
       <TableHeader onCreateClick={onCreateClick} />
-      <Table dataSource={dataSource} columns={specificationItemColumn}/>
+      <Tabs defaultActiveKey="1" onChange={callback} type="card">
+        <TabPane tab="外部仕様書" key="1">
+          <Table dataSource={dataSourceInner} columns={specificationItemColumn}/>
+        </TabPane>
+        <TabPane tab="内部仕様書" key="2">
+          <Table dataSource={dataSourceOuter} columns={specificationItemColumn}/>
+        </TabPane>
+        <TabPane tab="住宅設備・その他" key="3">
+          <Table dataSource={dataSourceInnerEquipment} columns={specificationItemColumn}/>
+        </TabPane>
+        <TabPane tab="内部仕上げ表" key="4">
+          <Table dataSource={dataSourceInnerFinishing} columns={specificationItemColumn}/>
+        </TabPane>
+      </Tabs>
     </>
   )
 }
