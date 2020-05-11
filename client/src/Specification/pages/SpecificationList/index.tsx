@@ -5,13 +5,15 @@ import { useRouteMatch } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 import PageTitle from 'src/shared/components/PageTitle'
 import TableHeader from '../../components/TableHeader'
+import SpecificationFormModal from '../../components/SpecificationFormModal'
 
 const SpecificationList: React.SFC = () => {
   const [specifications, setSpecifications] : any = useState([])
+  const [visible, setVisible] = useState(false)
   let match = useRouteMatch()
   let history = useHistory()
 
-  const onCreateClick = () => history.push(`${match.url}/new`)
+  const onCreateClick = () => setVisible(true)
 
   useEffect(() => {
     const getApiResult = async () => {
@@ -96,11 +98,23 @@ const SpecificationList: React.SFC = () => {
       },
     ]
 
+  const onCreate = (values: any) => {
+    console.log('Received values of form: ', values);
+    setVisible(false);
+  }
+
   return (
     <>
       <PageTitle>仕様書一覧</PageTitle>
       <TableHeader onCreateClick={onCreateClick} />
       <Table dataSource={dataSource} columns={specificationItemColumn}/>
+      <SpecificationFormModal
+        visible={visible}
+        onCreate={onCreate}
+        onCancel={() => {
+          setVisible(false);
+        }}
+      />
     </>
   )
 }
