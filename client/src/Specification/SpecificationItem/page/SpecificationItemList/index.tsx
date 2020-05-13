@@ -50,8 +50,6 @@ const SpecificationItemList: React.SFC = () => {
   const dataSourceInnerFinishing = dataSourceOrg.filter((item: ISpecificationItem ) => item.type === "inner_finishing")
   const dataSourceInnerEquipment = dataSourceOrg.filter((item: ISpecificationItem ) => item.type === "equipment")
 
-  console.log(dataSourceInner)
-  console.log(dataSourceInnerFinishing)
   const deleteSpecificationItem = async (id: string) => {
     await axios.delete(`http://localhost:3000/api/v1/specification_items/${id}`)
     const nextSpecificationItems: ISpecificationItem[] = specification.specification_items.filter((specificationItem: ISpecificationItem) => ( specificationItem.id !== id ))

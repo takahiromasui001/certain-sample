@@ -17,11 +17,9 @@ type TSpecificationFormModal = {
 
 const SpecificationFormModal: React.FC<TSpecificationFormModal> = (props) => {
   const { visible, onCreate, onEdit, onCancel, initialValue, modalType } = props
-  console.log(initialValue)
 
   const [form] = Form.useForm()
   useEffect(() => {
-    debugger
     form.setFieldsValue({ name: initialValue.name })
   } , [initialValue]);
 

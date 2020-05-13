@@ -15,7 +15,6 @@ const EditSpecificationItem: React.SFC = () => {
   useEffect(() => {
     const getSpecificationItem = async () => {
     const response: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/specification_items/${id}`)
-    console.log(response.data)
     
     setCurrentSpecificationItem({ name: response.data.name, type: response.data.specification_type, productId: response.data.product_id })
     }
