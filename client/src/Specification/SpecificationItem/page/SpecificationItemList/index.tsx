@@ -3,7 +3,9 @@ import axios, { AxiosResponse } from 'axios'
 import { Table, Tabs } from 'antd'
 import { useHistory, useParams } from 'react-router-dom'
 import PageTitle from 'src/shared/components/PageTitle'
+import SpecificationItemFormModal from '../../components/SpecificationItemFormModal'
 import SpecificationItemTable from '../../components/SpecificationItemTable'
+import useProductList from '../../hooks/useProductList'
 
 const { TabPane } = Tabs
 
@@ -17,9 +19,15 @@ export type TSpecificationItem = {
 
 const SpecificationItemList: React.SFC = () => {
   const [specification, setSpecification] : any = useState({})
+  const [visible, setVisible] = useState(false)
+  const [modalInitialValue, setModalInitialValue] = useState({})
+  const [modalType, setModalType] = useState('')
+  const [editId, setEditId] = useState('')
+  
   let history = useHistory()
   const params: { id: string } = useParams()
   const specificationId = params.id
+  const products = useProductList()
 
   useEffect(() => {
     const getApiResult = async () => {
@@ -29,6 +37,59 @@ const SpecificationItemList: React.SFC = () => {
     getApiResult()
   }, [specificationId])
 
+  const onCreate = async (values: { name: string, type: number, productId: number, specificationId: number }) => {
+    try {
+      const result = await axios.post(`http://localhost:3000/api/v1/specification_items`, {
+        name: values.name,
+        type: values.type,
+        productId: values.productId,
+        specificationId: specificationId,
+      })
+
+      const nextSpecificationItems: TSpecificationItem[] = specification.specification_items.concat([{
+        id: result.data.id, name: result.data.name, type: result.data.type, productId: result.data.productId, specificationId: result.data.specificationId
+      }])
+
+      const nextSpecification = {
+        ...specification,
+        specification_items: nextSpecificationItems
+      }
+      console.log(nextSpecification)
+      setVisible(false)
+      setSpecification(nextSpecification)
+    } catch(error) {
+      history.push(`/specifications/new`)
+    }
+  }
+
+  const onEdit = async (values: { name: string, type: number, productId: number, specificationId: number }) => {
+    try {
+      const result = await axios.patch(`http://localhost:3000/api/v1/specification_items/${editId}`, {
+        name: values.name,
+        type: values.type,
+        productId: values.productId,
+        specificationId: specificationId,
+      })
+
+      const updatedSpacification = { id: result.data.id, name: result.data.name, updated_at: result.data.updated_at }
+      const nextSpecificationItems = specification.specification_items.map((item: TSpecificationItem) => (
+        item.id === result.data.id ? updatedSpacification : item
+      ))
+
+      setVisible(false)
+      setSpecification({
+        ...specification,
+        specification_items: nextSpecificationItems
+      })
+    } catch(error) {
+      // history.push(`/specifications/${id}/`)
+    }
+  }
+
+  const onCancel = () => {
+    setVisible(false)
+  }
+
   const callback = (key: string) => {
     console.log(key);
   }
@@ -36,7 +97,11 @@ const SpecificationItemList: React.SFC = () => {
   const tableProps = {
     specification: specification,
     setSpecification: setSpecification,
-    specificationId: specificationId  
+    specificationId: specificationId,
+    setModalInitialValue: setModalInitialValue,
+    setModalType: setModalType,
+    setEditId: setEditId,
+    setVisible: setVisible
   }
 
   return (
@@ -56,6 +121,15 @@ const SpecificationItemList: React.SFC = () => {
           <SpecificationItemTable itemType="equipment" {...tableProps} />
         </TabPane>
       </Tabs>
+      <SpecificationItemFormModal
+        products={products}
+        visible={visible}
+        onCreate={onCreate}
+        onCancel={onCancel}
+        onEdit={onEdit}
+        initialValue={modalInitialValue}
+        modalType={modalType}
+      />
     </>
   )
 }

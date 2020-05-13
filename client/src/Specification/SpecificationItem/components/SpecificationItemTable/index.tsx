@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table } from 'antd'
 import axios, { AxiosResponse } from 'axios'
-import { useHistory, useRouteMatch } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { TSpecificationItem } from '../../page/SpecificationItemList'
 import TableHeader from '../TableHeader'
 
@@ -19,9 +19,33 @@ type TSpecificationItemTable = {
 const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
   const { specification, setSpecification, itemType, specificationId, setModalInitialValue, setModalType, setEditId, setVisible } = props
   let history = useHistory()
-  let match = useRouteMatch()
 
-  const onCreateClick = () => history.push(`${match.url}/new`)
+  const onCreateClick = () => {
+    setModalInitialValue({name: ''})
+    setModalType('create')
+    setEditId('')
+    setVisible(true)
+  }
+
+  const onEditClick = (id: string) => {
+    const getSpecificationItem = async () => {
+      const response: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/specification_items/${id}`)
+      setModalInitialValue({ 
+        name: response.data.name, type: response.data.specification_type, productId: response.data.product_id
+      })
+      setModalType('edit')
+      setEditId(id)
+      setVisible(true)
+    }
+    getSpecificationItem()
+  }
+
+  const deleteSpecificationItem = async (id: string) => {
+    await axios.delete(`http://localhost:3000/api/v1/specification_items/${id}`)
+    const nextSpecificationItems: TSpecificationItem[] = specification.specification_items.filter((specificationItem: TSpecificationItem) => ( specificationItem.id !== id ))
+    setSpecification({ ...specification, specification_items: nextSpecificationItems })
+    history.push(`/specifications/${specificationId}/specification_items`)
+  }
 
   const specificationItemColumn = 
   [
@@ -45,9 +69,7 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
       key: 'action',
       render: (record: any) => {
         return (
-          <button onClick={() => {
-            history.push(`/specifications/${specificationId}/specification_items/${record.key}`)
-          }}>
+          <button onClick={() => onEditClick(record.key)}>
             編集
           </button>
         )
@@ -67,13 +89,6 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
       },
     },
   ]
-
-  const deleteSpecificationItem = async (id: string) => {
-    await axios.delete(`http://localhost:3000/api/v1/specification_items/${id}`)
-    const nextSpecificationItems: TSpecificationItem[] = specification.specification_items.filter((specificationItem: TSpecificationItem) => ( specificationItem.id !== id ))
-    setSpecification({ ...specification, specification_items: nextSpecificationItems })
-    history.push(`/specifications/${specificationId}/specification_items`)
-  }
 
   const dataSource = Object.keys(specification).length === 0 ? [] :
   specification.specification_items.map((item: TSpecificationItem) => (
