@@ -9,7 +9,8 @@ module Api
 
       # POST /api/v1/products
       def create
-        Product.create(name: params[:name], maker: params[:maker], price: params[:price])
+        product = Product.create(name: params[:name], maker: params[:maker], price: params[:price])
+        render json: product
       end
 
       # DELETE /api/v1/products/:id(.:format)
@@ -28,6 +29,7 @@ module Api
       def update
         product = Product.find(params[:id])
         product.update(name: params[:name], maker: params[:maker], price: params[:price])
+        render json: product
       end
     end
   end
