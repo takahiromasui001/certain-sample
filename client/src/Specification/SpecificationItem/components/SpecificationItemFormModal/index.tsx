@@ -10,7 +10,7 @@ type TSpecificationItemFormModal = {
   onCreate: (values: any) => void
   onEdit: (values: any) => void
   onCancel: () => void
-  initialValue: any
+  initialValue: { name: string, type: string, productId: string }
   modalType: string
 }
 
@@ -21,24 +21,23 @@ const layout = {
 
 const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props) => {
   const { products, visible, onCreate, onEdit, onCancel, initialValue, modalType } = props
-  const typeList: {[index: string]:any} = { inner: 0, outer: 1, equipment: 3, inner_finishing: 2 }
-  const typeLabel: {[index: string]:any} = { inner: '内部仕様書', outer: '外部仕様書', equipment: '住宅設備・その他', inner_finishing: '内部仕上げ表' }
-  const types: {label: string, id: number}[] = [
-    { label: '内部仕様書', id: 0 },
-    { label: '外部仕様書', id: 1 },
-    { label: '住宅設備・その他', id: 3 },
-    { label: '内部仕上げ表', id: 2 },
-  ]
-  const productList = products.map( (product: { label: string, id: string}) => (
-    <option key={product.id} value={product.id}>{product.label}</option>
-  ))
-  const specificationTypeList = types.map( (type: { label: string, id: number}) => (
-    <option key={type.id} value={type.id}>{type.label}</option>
-  ))
-
   const [form] = Form.useForm()
+
+  const types: { label: string, id: string }[] = [
+    { label: '内部仕様書', id: 'inner' },
+    { label: '外部仕様書', id: 'outer' },
+    { label: '住宅設備・その他', id: 'equipment' },
+    { label: '内部仕上げ表', id: 'inner_finishing' },
+  ]
+  const productList = products.map( (product: { label: string, id: string }) => 
+    <Option key={product.id} value={product.id}>{product.label}</Option>
+  )
+  const specificationTypeList = types.map( (type: { label: string, id: string }) =>
+    <Option key={type.id} value={type.id}>{type.label}</Option>
+  )
+
   useEffect(() => {
-    form.setFieldsValue({ name: initialValue.name, type: typeList[initialValue.type], productId: initialValue.productId})
+    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId })
   } , [initialValue]);
 
   return (
@@ -50,13 +49,11 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
       cancelText="キャンセル"
       onCancel={() => {
         onCancel()
-        // form.resetFields();
       }}
       onOk={() => {
         form
           .validateFields()
           .then(values => {
-            // form.resetFields();
             modalType === 'edit' ? onEdit(values) : onCreate(values)
           })
           .catch(info => {
@@ -82,7 +79,6 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
           name="type"
           label="仕様書タイプ"
         >
-          {/* <Select defaultValue={type.inner} style={{ width: "100%" }}> */}
           <Select style={{ width: "100%" }}>
             {specificationTypeList}
           </Select>
@@ -91,7 +87,6 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
           name="productId"
           label="商品"
         >
-          {/* <Select defaultValue={products.length !== 0 ? products[0].id : 'id'} style={{ width: "100%" }}> */}
           <Select style={{ width: "100%" }}>
             {productList}
           </Select>

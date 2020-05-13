@@ -101,9 +101,6 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
       }
     )).filter((item: TSpecificationItem ) => item.type === itemType)
 
-  // console.log(specification.specification_items)
-  // console.log(dataSource)
-
   return (
     <>
       <TableHeader onCreateClick={onCreateClick} />

@@ -6,10 +6,10 @@ module Api
         specification = Specification.find(params[:specificationId])
         item = specification.specification_items.create(
           name: params[:name],
-          specification_type: params[:type].to_i,
+          specification_type: params[:type],
           product_id: params[:productId],
         )
-        render json: { 
+        render json: {
           id: item.id, name: item.name, type: item.specification_type,
           product_name: item.product.name, maker: item.product.maker
         }
@@ -27,7 +27,7 @@ module Api
 
       def update
         item = SpecificationItem.find(params[:id])
-        item.update(name: params[:name], specification_type: params[:type].to_i, product_id: params[:productId])
+        item.update(name: params[:name], specification_type: params[:type], product_id: params[:productId])
         render json: {
           id: item.id, name: item.name, type: item.specification_type,
           product_name: item.product.name, maker: item.product.maker

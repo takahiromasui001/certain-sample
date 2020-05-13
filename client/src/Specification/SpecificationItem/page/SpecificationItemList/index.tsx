@@ -20,7 +20,7 @@ export type TSpecificationItem = {
 const SpecificationItemList: React.SFC = () => {
   const [specification, setSpecification] : any = useState({})
   const [visible, setVisible] = useState(false)
-  const [modalInitialValue, setModalInitialValue] = useState({})
+  const [modalInitialValue, setModalInitialValue] = useState({ name: '', type: '', productId: '' })
   const [modalType, setModalType] = useState('')
   const [editId, setEditId] = useState('')
   
