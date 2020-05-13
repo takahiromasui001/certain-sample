@@ -1,5 +1,6 @@
-import React from 'react'
-import { Button, Modal, Form, Input } from 'antd'
+import React, { useEffect } from 'react'
+import { Modal, Form } from 'antd'
+import { Input as StyledInput } from 'src/shared/components/FormStyle'
 
 type Values = {
   name: string
@@ -8,33 +9,60 @@ type Values = {
 type TSpecificationFormModal = {
   visible: boolean
   onCreate: (values: any) => void
+  onEdit: (values: any) => void
   onCancel: () => void
+  initialValue: any
+  modalType: string
 }
 
 const SpecificationFormModal: React.FC<TSpecificationFormModal> = (props) => {
-  const { visible, onCreate, onCancel } = props
+  const { visible, onCreate, onEdit, onCancel, initialValue, modalType } = props
+  console.log(initialValue)
 
   const [form] = Form.useForm()
+  useEffect(() => {
+    debugger
+    form.setFieldsValue({ name: initialValue.name })
+  } , [initialValue]);
+
   return (
     <Modal
       visible={visible}
-      title="Create a new collection"
-      okText="Create"
-      cancelText="Cancel"
-      onCancel={onCancel}
+      width={720}
+      title="仕様書作成"
+      okText="登録"
+      cancelText="キャンセル"
+      onCancel={() => {
+        onCancel()
+        // form.resetFields();
+      }}
       onOk={() => {
         form
           .validateFields()
           .then(values => {
-            form.resetFields();
-            onCreate(values);
+            // form.resetFields();
+            modalType === 'edit' ? onEdit(values) : onCreate(values)
           })
           .catch(info => {
             console.log('Validate Failed:', info);
           });
       }}
+      destroyOnClose={true}
     >
-      <div>TEST!!!!!!!!!!</div>
+      <Form
+        form={form}
+        layout="horizontal"
+        name="specification_form_in_modal"
+        initialValues={ initialValue }
+        size='middle'
+      >
+        <Form.Item
+          name="name"
+          label="仕様書名"
+        >
+          <StyledInput className="text-input" />          
+        </Form.Item>
+      </Form>
     </Modal>
   )
 }

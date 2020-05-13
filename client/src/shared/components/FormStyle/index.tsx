@@ -11,7 +11,8 @@ export const FormItemWrapper = styled.div`
 `
 
 export const Input = styled.input`
-  width: calc(100% - 100px);
+  width: 100%;
+  /* width: calc(100%); */
 `
 
 export const Select = styled.select`

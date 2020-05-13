@@ -8,7 +8,8 @@ module Api
       end
 
       def create
-        Specification.create(name: params[:name])
+        specification = Specification.create(name: params[:name])
+        render json: specification
       end
 
       def destroy
@@ -19,6 +20,7 @@ module Api
       def update
         specification = Specification.find(params[:id])
         specification.update(name: params[:name])
+        render json: specification
       end
 
       # GET	/api/v1/specifications/:id

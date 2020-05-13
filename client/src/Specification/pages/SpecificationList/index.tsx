@@ -9,11 +9,32 @@ import SpecificationFormModal from '../../components/SpecificationFormModal'
 
 const SpecificationList: React.SFC = () => {
   const [specifications, setSpecifications] : any = useState([])
+  const [modalInitialValue, setModalInitialValue] = useState({})
+  const [modalType, setModalType] = useState('')
+  const [editId, setEditId] = useState('')
+
   const [visible, setVisible] = useState(false)
   let match = useRouteMatch()
   let history = useHistory()
 
-  const onCreateClick = () => setVisible(true)
+  const onCreateClick = () => {
+    setModalInitialValue({name: ''})
+    setModalType('create')
+    setEditId('')
+    setVisible(true)
+  }
+
+  const onEditClick = (id: string) => {
+    const getSpecificationItem = async () => {
+      const response: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/specifications/${id}`)
+
+      setModalInitialValue({ name: response.data.name })
+      setModalType('edit')
+      setEditId(id)
+      setVisible(true)
+    }
+    getSpecificationItem()
+  }
 
   useEffect(() => {
     const getApiResult = async () => {
@@ -75,9 +96,7 @@ const SpecificationList: React.SFC = () => {
         key: 'action',
         render: (record: any) => {
           return (
-            <button onClick={() => {
-              history.push(`/specifications/${record.key}`)
-            }}>
+            <button onClick={() => onEditClick(record.key)}>
               編集
             </button>
           )
@@ -98,11 +117,42 @@ const SpecificationList: React.SFC = () => {
       },
     ]
 
-  const onCreate = (values: any) => {
-    console.log('Received values of form: ', values);
-    setVisible(false);
+  const onCreate = async (values: { name: string }) => {
+    try {
+      const result = await axios.post(`http://localhost:3000/api/v1/specifications`, {
+        name: values.name,
+      })
+      const nextSpecifications: ISpecification[] = specifications.concat([{
+        id: result.data.id, name: result.data.name, updated_at: result.data.updated_at
+      }])
+      setVisible(false)
+      console.log(specifications)
+      setSpecifications(...specifications, nextSpecifications)
+    } catch(error) {
+      history.push(`/specifications/new`)
+    }
   }
 
+  const onEdit = async (values: { name: string }) => {
+    try {
+      const result: any = await axios.patch(`http://localhost:3000/api/v1/specifications/${editId}`, {
+        name: values.name,
+      })
+      const updatedSpacification = { id: result.data.id, name: result.data.name, updated_at: result.data.updated_at }
+      const nextSpecifications: ISpecification[] = specifications.map((specification: ISpecification) => {
+        debugger
+        return specification.id === updatedSpacification.id ? updatedSpacification : specification
+      })
+      setVisible(false)
+      setSpecifications(nextSpecifications)
+    } catch(error) {
+      // history.push(`/specifications/${id}/`)
+    }
+  }
+
+  const onCancel = () => {
+    setVisible(false);
+  }
   return (
     <>
       <PageTitle>仕様書一覧</PageTitle>
@@ -111,9 +161,10 @@ const SpecificationList: React.SFC = () => {
       <SpecificationFormModal
         visible={visible}
         onCreate={onCreate}
-        onCancel={() => {
-          setVisible(false);
-        }}
+        onCancel={onCancel}
+        onEdit={onEdit}
+        initialValue={modalInitialValue}
+        modalType={modalType}
       />
     </>
   )
