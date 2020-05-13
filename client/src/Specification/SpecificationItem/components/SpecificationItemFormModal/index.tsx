@@ -21,13 +21,24 @@ const layout = {
 
 const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props) => {
   const { products, visible, onCreate, onEdit, onCancel, initialValue, modalType } = props
-  const type = { inner: '0', outer: '1', inner_finishing: '2', equipment: '3' }
+  const typeList: {[index: string]:any} = { inner: 0, outer: 1, equipment: 3, inner_finishing: 2 }
+  const typeLabel: {[index: string]:any} = { inner: '内部仕様書', outer: '外部仕様書', equipment: '住宅設備・その他', inner_finishing: '内部仕上げ表' }
+  const types: {label: string, id: number}[] = [
+    { label: '内部仕様書', id: 0 },
+    { label: '外部仕様書', id: 1 },
+    { label: '住宅設備・その他', id: 3 },
+    { label: '内部仕上げ表', id: 2 },
+  ]
   const productList = products.map( (product: { label: string, id: string}) => (
     <option key={product.id} value={product.id}>{product.label}</option>
   ))
+  const specificationTypeList = types.map( (type: { label: string, id: number}) => (
+    <option key={type.id} value={type.id}>{type.label}</option>
+  ))
+
   const [form] = Form.useForm()
   useEffect(() => {
-    form.setFieldsValue({ name: initialValue.name })
+    form.setFieldsValue({ name: initialValue.name, type: typeList[initialValue.type], productId: initialValue.productId})
   } , [initialValue]);
 
   return (
@@ -73,10 +84,7 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
         >
           {/* <Select defaultValue={type.inner} style={{ width: "100%" }}> */}
           <Select style={{ width: "100%" }}>
-            <Option value={type.outer}>外部仕様書</Option>
-            <Option value={type.inner}>内部仕様書</Option>
-            <Option value={type.equipment}>住宅設備・その他</Option>
-            <Option value={type.inner_finishing}>内部仕上げ表</Option>
+            {specificationTypeList}
           </Select>
         </Form.Item>
         <Form.Item

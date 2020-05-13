@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
-import { Table, Tabs } from 'antd'
+import { Tabs } from 'antd'
 import { useHistory, useParams } from 'react-router-dom'
 import PageTitle from 'src/shared/components/PageTitle'
 import SpecificationItemFormModal from '../../components/SpecificationItemFormModal'
@@ -47,14 +47,14 @@ const SpecificationItemList: React.SFC = () => {
       })
 
       const nextSpecificationItems: TSpecificationItem[] = specification.specification_items.concat([{
-        id: result.data.id, name: result.data.name, type: result.data.type, productId: result.data.productId, specificationId: result.data.specificationId
+        id: result.data.id, name: result.data.name, type: result.data.type, product_name: result.data.product_name, maker: result.data.maker
       }])
 
       const nextSpecification = {
         ...specification,
         specification_items: nextSpecificationItems
       }
-      console.log(nextSpecification)
+
       setVisible(false)
       setSpecification(nextSpecification)
     } catch(error) {
@@ -71,7 +71,7 @@ const SpecificationItemList: React.SFC = () => {
         specificationId: specificationId,
       })
 
-      const updatedSpacification = { id: result.data.id, name: result.data.name, updated_at: result.data.updated_at }
+      const updatedSpacification = { id: result.data.id, name: result.data.name, type: result.data.type, product_name: result.data.product_name, maker: result.data.maker }
       const nextSpecificationItems = specification.specification_items.map((item: TSpecificationItem) => (
         item.id === result.data.id ? updatedSpacification : item
       ))
@@ -115,10 +115,10 @@ const SpecificationItemList: React.SFC = () => {
           <SpecificationItemTable itemType="inner" {...tableProps} />
         </TabPane>
         <TabPane tab="住宅設備・その他" key="3">
-          <SpecificationItemTable itemType="inner_finishing" {...tableProps} />
+          <SpecificationItemTable itemType="equipment" {...tableProps} />
         </TabPane>
         <TabPane tab="内部仕上げ表" key="4">
-          <SpecificationItemTable itemType="equipment" {...tableProps} />
+          <SpecificationItemTable itemType="inner_finishing" {...tableProps} />
         </TabPane>
       </Tabs>
       <SpecificationItemFormModal
