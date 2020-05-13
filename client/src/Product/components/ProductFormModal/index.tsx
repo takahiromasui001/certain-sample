@@ -57,7 +57,7 @@ const ProductFormModal: React.FC<TProductFormModal> = (props) => {
       >
         <Form.Item
           name="name"
-          label="仕様書名"
+          label="商品名"
         >
           <StyledInput className="text-input" />          
         </Form.Item>
