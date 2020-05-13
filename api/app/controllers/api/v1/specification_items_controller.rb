@@ -4,11 +4,12 @@ module Api
       # POST /api/v1/specification_items(.:format)
       def create
         specification = Specification.find(params[:specificationId])
-        specification.specification_items.create(
+        specification_item = specification.specification_items.create(
           name: params[:name],
           specification_type: params[:type].to_i,
           product_id: params[:productId],
         )
+        render json: specification_item
       end
 
       def destroy
@@ -24,6 +25,7 @@ module Api
       def update
         specification_item = SpecificationItem.find(params[:id])
         specification_item.update(name: params[:name], specification_type: params[:type], product_id: params[:productId])
+        render json: specification_item 
       end
     end
   end
