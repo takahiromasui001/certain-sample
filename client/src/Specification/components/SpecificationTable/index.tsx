@@ -7,15 +7,15 @@ import TableHeader from '../TableHeader'
 
 type TSpecificationTable = {
   specifications: ISpecification[]
+  setSpecifications: any
   setModalInitialValue: any
   setModalType: any
   setEditId: any
   setVisible: any
-  setSpecifications: any
 }
 
 const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
-  const { specifications, setModalInitialValue, setModalType, setEditId, setVisible, setSpecifications } = props
+  const { specifications, setSpecifications, setModalInitialValue, setModalType, setEditId, setVisible } = props
   let history = useHistory()
 
   const onCreateClick = () => {
@@ -107,7 +107,7 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
   return (
     <>
       <TableHeader onCreateClick={onCreateClick} />
-      <Table dataSource={dataSource} columns={specificationItemColumn}/>
+      <Table size={'small'} dataSource={dataSource} columns={specificationItemColumn}/>
     </>
   )
 }

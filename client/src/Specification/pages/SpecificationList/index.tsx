@@ -13,11 +13,11 @@ export interface ISpecification {
 
 const SpecificationList: React.SFC = () => {
   const [specifications, setSpecifications] : any = useState([])
+  const [visible, setVisible] = useState(false)
   const [modalInitialValue, setModalInitialValue] = useState({})
   const [modalType, setModalType] = useState('')
   const [editId, setEditId] = useState('')
 
-  const [visible, setVisible] = useState(false)
   let history = useHistory()
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const SpecificationList: React.SFC = () => {
   }
 
   const onCancel = () => {
-    setVisible(false);
+    setVisible(false)
   }
 
   return (
@@ -68,11 +68,11 @@ const SpecificationList: React.SFC = () => {
       <PageTitle>仕様書一覧</PageTitle>
       <SpecificationTable
         specifications={specifications}
+        setSpecifications={setSpecifications}
         setModalInitialValue={setModalInitialValue}
         setModalType={setModalType}
         setEditId={setEditId}
         setVisible={setVisible}
-        setSpecifications={setSpecifications}
       />
       <SpecificationFormModal
         visible={visible}
