@@ -16,6 +16,9 @@ const { Content } = Layout
 const StyledContent = styled(Content)`
   padding: 10px 50px;
 `
+const StyledLayout = styled(Layout)`
+  height: calc(100vh - 64px);
+`
 
 const SidebarWrapper = styled.div`
   padding-top: 5px;
@@ -26,7 +29,7 @@ function App() {
     <Router>
       <Layout>
         <Header />
-        <Layout>
+        <StyledLayout>
           <SidebarWrapper>
             <Sidebar/>
           </SidebarWrapper>
@@ -45,7 +48,7 @@ function App() {
               </Switch>
             </StyledContent>
           </Layout>
-        </Layout>
+        </StyledLayout>
       </Layout>
     </Router>
   )
