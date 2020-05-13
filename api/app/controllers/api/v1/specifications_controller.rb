@@ -3,13 +3,17 @@ module Api
     class SpecificationsController < ApplicationController
       # GET /api/v1/specifications
       def index
-        specification = Specification.all
-        render json: specification
+        specifications = Specification.all
+        response = specifications.map do |specification|
+          { id: specification.id, name: specification.name, updated_at: specification.updated_at.strftime("%Y年%m月%d日 %H:%M:%S") }
+        end
+        render json: response
       end
 
       def create
         specification = Specification.create(name: params[:name])
-        render json: specification
+        response = { id: specification.id, name: specification.name, updated_at: specification.updated_at.strftime("%Y年%m月%d日 %H:%M:%S") }
+        render json: response
       end
 
       def destroy
@@ -20,7 +24,8 @@ module Api
       def update
         specification = Specification.find(params[:id])
         specification.update(name: params[:name])
-        render json: specification
+        response = { id: specification.id, name: specification.name, updated_at: specification.updated_at.strftime("%Y年%m月%d日 %H:%M:%S") }
+        render json: response
       end
 
       # GET	/api/v1/specifications/:id

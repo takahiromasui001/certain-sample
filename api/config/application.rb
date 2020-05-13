@@ -35,5 +35,6 @@ module Api
     config.api_only = true
 
     config.x.cors_allowed_origins = ENV.fetch('CORS_ALLOWED_ORIGINS', 'http://localhost:4000')
+    config.time_zone = 'Asia/Tokyo'
   end
 end
