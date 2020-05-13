@@ -1,10 +1,9 @@
 import React, { useEffect, useState, Dispatch, SetStateAction } from 'react'
 import axios, { AxiosResponse } from 'axios'
-import { Table } from 'antd'
 import { useRouteMatch, useHistory } from 'react-router-dom'
-import * as H from 'history';
 import PageTitle from 'src/shared/components/PageTitle'
-import TableHeader from '../../components/TableHeader'
+import ProductFormModal from '../../components/ProductFormModal'
+import ProductTable from '../../components/ProductTable'
 
 export interface IProduct {
   id: number
@@ -13,67 +12,15 @@ export interface IProduct {
   price: number
 }
 
-const buildProductColumns = (products: IProduct[], setProducts: Dispatch<SetStateAction<IProduct[]>>, history: H.History<H.LocationState>) => {
-  const deleteProduct = async (id: number) => {
-    await axios.delete(`http://localhost:3000/api/v1/products/${id}`)
-    const nextProductList: IProduct[] = products.filter((product: IProduct) => ( product.id !== id ))
-    setProducts(nextProductList)
-    history.push('/products')
-  }
-
-  return (
-    [
-      {
-        title: '名前',
-        dataIndex: 'name',
-        key: 'name',
-      },
-      {
-        title: 'メーカー',
-        dataIndex: 'maker',
-        key: 'maker',
-      },
-      {
-        title: '価格',
-        dataIndex: 'price',
-        key: 'price',
-      },
-      {
-        title: '',
-        key: 'action',
-        render: (record: any) => {
-          return (
-            <button onClick={() => {
-              history.push(`/products/${record.key}`)
-            }}>
-              編集
-            </button>
-          )
-        },
-      },
-      {
-        title: '',
-        key: 'action',
-        render: (record: any) => {
-          return (
-            <button onClick={() => {
-              deleteProduct(record.key) 
-            }}>
-              削除
-            </button>
-          )
-        },
-      },
-    ]
-  )
-}
-
 const ProductList: React.SFC = () => {
   const [products, setProducts] : any = useState([])
+  const [visible, setVisible] = useState(false)
+  const [modalInitialValue, setModalInitialValue] = useState({})
+  const [modalType, setModalType] = useState('')
+  const [editId, setEditId] = useState('')
+
   let match = useRouteMatch()
   let history = useHistory()
-
-  const onCreateClick = () => history.push(`${match.url}/new`)
 
   useEffect(() => {
     const getApiResult = async () => {
@@ -83,20 +30,65 @@ const ProductList: React.SFC = () => {
     getApiResult()
   }, [])
 
-  const dataSource = products.map((product: IProduct) => (
-    {
-      key: product.id,
-      name: product.name,
-      maker: product.maker,
-      price: product.price,
+  const onCreate = async (values: { name: string, maker: string, price: string }) => {
+    try {
+      const result = await axios.post('http://localhost:3000/api/v1/products', {
+        name: values.name,
+        maker: values.maker,
+        price: values.price
+      })
+      const nextProducts: IProduct[] = products.concat([{
+        id: result.data.id, name: result.data.name, maker: result.data.maker, price: result.data.price
+      }])
+      setVisible(false)
+      setProducts(nextProducts)
+    } catch(error) {
+      history.push(`/specifications/new`)
     }
-  ))
+  }
+
+  const onEdit = async (values: { name: string, maker: string, price: string }) => {
+    try {
+      const result :AxiosResponse = await axios.patch(`http://localhost:3000/api/v1/products/${editId}`, {
+        name: values.name,
+        maker: values.maker,
+        price: values.price
+      })
+
+      const updatedProduct = { id: result.data.id, name: result.data.name, maker: result.data.maker, price: result.data.price }
+      const nextProducts: IProduct[] = products.map((product: IProduct) => {
+        return product.id === updatedProduct.id ? updatedProduct : product 
+      })
+      setVisible(false)
+      setProducts(nextProducts)
+    } catch(error) {
+      // history.push(`/specifications/${id}/`)
+    }
+  }
+
+  const onCancel = () => {
+    setVisible(false);
+  }
 
   return (
     <>
       <PageTitle>商品一覧</PageTitle>
-      <TableHeader onCreateClick={onCreateClick} />
-      <Table dataSource={dataSource} columns={buildProductColumns(products, setProducts, history)}/>
+      <ProductTable
+        products={products}
+        setProducts={setProducts}
+        setModalInitialValue={setModalInitialValue}
+        setModalType={setModalType}
+        setEditId={setEditId}
+        setVisible={setVisible}
+      />
+      <ProductFormModal
+        visible={visible}
+        onCreate={onCreate}
+        onCancel={onCancel}
+        onEdit={onEdit}
+        initialValue={modalInitialValue}
+        modalType={modalType}
+      />
     </>
   )
 }
