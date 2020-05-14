@@ -4,9 +4,9 @@ import axios, { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import * as H from 'history'
 import TableHeader from '../TableHeader'
-import MenuButton from 'src/shared/components/MenuButton'
 import { IProduct } from '../../pages/ProductList'
 import { ColumnTitle } from './style'
+import MenuButton from 'src/shared/components/MenuButton'
 
 type TProductTable = {
   products: IProduct[]

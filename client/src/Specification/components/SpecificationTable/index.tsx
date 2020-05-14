@@ -4,6 +4,7 @@ import axios, { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import { ISpecification } from '../../pages/SpecificationList'
 import TableHeader from '../TableHeader'
+import MenuButton from 'src/shared/components/MenuButton'
 
 type TSpecificationTable = {
   specifications: ISpecification[]
@@ -37,7 +38,7 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
     getSpecificationItem()
   }
 
-  const deleteSpecificationItem = async (id: string) => {
+  const deleteSpecification = async (id: string) => {
     await axios.delete(`http://localhost:3000/api/v1/specifications/${id}`)
     const nextSpecifications: ISpecification[] = specifications.filter((specification: ISpecification) => ( specification.id !== id ))
     setSpecifications(nextSpecifications)
@@ -81,27 +82,16 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
     {
       title: '',
       key: 'action',
+      width: '70px', 
       render: (record: any) => {
         return (
-          <button onClick={() => onEditClick(record.key)}>
-            編集
-          </button>
+          <MenuButton
+            onEditClick={() => onEditClick(record.key)}
+            onCancelClick={() => deleteSpecification(record.key)}
+          />
         )
       },
-    },
-    {
-      title: '',
-      key: 'action',
-      render: (record: any) => {
-        return (
-          <button onClick={() => {
-            deleteSpecificationItem(record.key) 
-          }}>
-            削除
-          </button>
-        )
-      },
-    },
+    }
   ]
 
   return (
