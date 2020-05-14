@@ -1,10 +1,12 @@
 import React, { Dispatch, SetStateAction } from 'react'
-import { Table } from 'antd'
+import { Table, Menu, Button } from 'antd'
 import axios, { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import * as H from 'history'
 import TableHeader from '../TableHeader'
+import MenuButton from 'src/shared/components/MenuButton'
 import { IProduct } from '../../pages/ProductList'
+import { ColumnTitle } from './style'
 
 type TProductTable = {
   products: IProduct[]
@@ -46,65 +48,62 @@ const ProductTable: React.SFC<TProductTable> = (props) => {
     history.push('/products')
   }
 
+  const priceAlign: "left" | "right" | "center" = "right"
+
   const buildProductColumns = (products: IProduct[], setProducts: Dispatch<SetStateAction<IProduct[]>>, history: H.History<H.LocationState>) => {
     return (
       [
         {
-          title: '名前',
+          title: <ColumnTitle>名前</ColumnTitle>,
           dataIndex: 'name',
           key: 'name',
         },
         {
-          title: 'メーカー',
+          title: <ColumnTitle>メーカー</ColumnTitle>,
           dataIndex: 'maker',
           key: 'maker',
         },
         {
-          title: '単価',
+          title: <ColumnTitle>単価</ColumnTitle>,
           dataIndex: 'price',
           key: 'price',
+          align: priceAlign,
         },
         {
           title: '',
           key: 'action',
+          width: '70px', 
           render: (record: any) => {
             return (
-              <button onClick={() => onEditClick(record.key)}>
-                編集
-              </button>
+              <MenuButton
+                onEditClick={() => onEditClick(record.key)}
+                onCancelClick={() => deleteProduct(record.key)}
+              />
             )
           },
-        },
-        {
-          title: '',
-          key: 'action',
-          render: (record: any) => {
-            return (
-              <button onClick={() => {
-                deleteProduct(record.key) 
-              }}>
-                削除
-              </button>
-            )
-          },
-        },
+        }
       ]
     )
   }
   
-  const dataSource = products.map((product: IProduct) => (
-    {
-      key: product.id,
-      name: product.name,
-      maker: product.maker,
-      price: product.price,
-    }
-  ))
+  const dataSource = products.map((product: IProduct) => {
+    const price = Number(product.price).toLocaleString()
+    const productPrice = (price === '0') ? '' : price
+
+    return (
+      {
+        key: product.id,
+        name: product.name,
+        maker: product.maker,
+        price: productPrice,
+      }
+    )
+  })
 
   return (
     <>
       <TableHeader onCreateClick={onCreateClick} />
-      <Table size={'small'} dataSource={dataSource} columns={buildProductColumns(products, setProducts, history)}/>
+      <Table bordered size={'small'} dataSource={dataSource} columns={buildProductColumns(products, setProducts, history)}/>
     </>
   )
 }
