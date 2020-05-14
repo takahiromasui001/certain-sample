@@ -60,7 +60,7 @@ const ProductTable: React.SFC<TProductTable> = (props) => {
           key: 'maker',
         },
         {
-          title: '価格',
+          title: '単価',
           dataIndex: 'price',
           key: 'price',
         },

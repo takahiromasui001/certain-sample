@@ -1,6 +1,6 @@
-import React, { useEffect, useState, Dispatch, SetStateAction } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
-import { useRouteMatch, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import PageTitle from 'src/shared/components/PageTitle'
 import ProductFormModal from '../../components/ProductFormModal'
 import ProductTable from '../../components/ProductTable'
@@ -19,7 +19,6 @@ const ProductList: React.SFC = () => {
   const [modalType, setModalType] = useState('')
   const [editId, setEditId] = useState('')
 
-  let match = useRouteMatch()
   let history = useHistory()
 
   useEffect(() => {
