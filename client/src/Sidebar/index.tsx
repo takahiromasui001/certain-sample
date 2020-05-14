@@ -42,6 +42,10 @@ const Sidebar: React.FC = () => {
           <img src="/people.png" alt="" style={{height: '60%', marginRight: 5}}/>
           顧客管理
         </Menu.Item>
+        <Menu.Item key="4" disabled={true}>
+          <img src="/people.png" alt="" style={{height: '60%', marginRight: 5}}/>
+          社員管理
+        </Menu.Item>
       </Menu>
     </Sider>
   )
