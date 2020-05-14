@@ -1,9 +1,11 @@
 import React from 'react'
-import { Table } from 'antd'
+import { Table, Button } from 'antd'
 import axios, { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import { ISpecification } from '../../pages/SpecificationList'
 import TableHeader from '../TableHeader'
+import MenuButton from 'src/shared/components/MenuButton'
+import { ColumnTitle } from 'src/shared/components/TableStyle'
 
 type TSpecificationTable = {
   specifications: ISpecification[]
@@ -37,7 +39,7 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
     getSpecificationItem()
   }
 
-  const deleteSpecificationItem = async (id: string) => {
+  const deleteSpecification = async (id: string) => {
     await axios.delete(`http://localhost:3000/api/v1/specifications/${id}`)
     const nextSpecifications: ISpecification[] = specifications.filter((specification: ISpecification) => ( specification.id !== id ))
     setSpecifications(nextSpecifications)
@@ -56,58 +58,42 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
   const specificationItemColumn = 
   [
     {
-      title: '仕様書名',
-      dataIndex: 'name',
-      key: 'name',
+      title: <ColumnTitle>仕様書名</ColumnTitle>,
+      key: 'action',
+      render: (record: any) => {
+        return (
+          <Button type="link" onClick={() => {
+            history.push(`/specifications/${record.key}/specification_items`)
+          }}>
+            {record.name}
+          </Button>
+        )
+      }
     },
     {
-      title: '更新日',
+      title: <ColumnTitle>更新日</ColumnTitle>,
       dataIndex: 'updated_at',
       key: 'updated_at',
     },
     {
       title: '',
       key: 'action',
+      width: '70px', 
       render: (record: any) => {
         return (
-          <button onClick={() => {
-            history.push(`/specifications/${record.key}/specification_items`)
-          }}>
-            仕様書項目
-          </button>
+          <MenuButton
+            onEditClick={() => onEditClick(record.key)}
+            onCancelClick={() => deleteSpecification(record.key)}
+          />
         )
       },
-    },
-    {
-      title: '',
-      key: 'action',
-      render: (record: any) => {
-        return (
-          <button onClick={() => onEditClick(record.key)}>
-            編集
-          </button>
-        )
-      },
-    },
-    {
-      title: '',
-      key: 'action',
-      render: (record: any) => {
-        return (
-          <button onClick={() => {
-            deleteSpecificationItem(record.key) 
-          }}>
-            削除
-          </button>
-        )
-      },
-    },
+    }
   ]
 
   return (
     <>
       <TableHeader onCreateClick={onCreateClick} />
-      <Table size={'small'} dataSource={dataSource} columns={specificationItemColumn}/>
+      <Table bordered size={'small'} dataSource={dataSource} columns={specificationItemColumn}/>
     </>
   )
 }
