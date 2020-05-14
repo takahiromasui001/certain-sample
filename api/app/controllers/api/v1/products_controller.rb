@@ -4,13 +4,16 @@ module Api
       # GET	/api/v1/products
       def index
         products = Product.all
-        render json: products
+        response = products.map do |product|
+          build_response(product)
+        end
+        render json: response
       end
 
       # POST /api/v1/products
       def create
         product = Product.create(name: params[:name], maker: params[:maker], price: params[:price])
-        render json: product
+        render json: build_response(product)
       end
 
       # DELETE /api/v1/products/:id(.:format)
@@ -22,14 +25,24 @@ module Api
       # GET /api/v1/products/:id
       def show
         product = Product.find(params[:id])
-        render json: product
+        render json: build_response(product)
       end
 
       # PATCH /api/v1/products/:id
       def update
         product = Product.find(params[:id])
         product.update(name: params[:name], maker: params[:maker], price: params[:price])
-        render json: product
+        render json: build_response(product)
+      end
+
+      private
+
+      def build_response(product)
+        price = (product.price.to_i == 0) ? '' : product.price.to_i.to_s(:delimited, delimiter: ',')
+        {
+          id: product.id, name: product.name, maker: product.maker, 
+          price: price
+        }
       end
     end
   end

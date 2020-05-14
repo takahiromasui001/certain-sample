@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import * as H from 'history'
 import TableHeader from '../TableHeader'
 import { IProduct } from '../../pages/ProductList'
+import { ColumnTitle } from './style'
 
 type TProductTable = {
   products: IProduct[]
@@ -46,23 +47,26 @@ const ProductTable: React.SFC<TProductTable> = (props) => {
     history.push('/products')
   }
 
+  const priceAlign: "left" | "right" | "center" = "right"
+
   const buildProductColumns = (products: IProduct[], setProducts: Dispatch<SetStateAction<IProduct[]>>, history: H.History<H.LocationState>) => {
     return (
       [
         {
-          title: '名前',
+          title: <ColumnTitle>名前</ColumnTitle>,
           dataIndex: 'name',
           key: 'name',
         },
         {
-          title: 'メーカー',
+          title: <ColumnTitle>メーカー</ColumnTitle>,
           dataIndex: 'maker',
           key: 'maker',
         },
         {
-          title: '単価',
+          title: <ColumnTitle>単価</ColumnTitle>,
           dataIndex: 'price',
           key: 'price',
+          align: priceAlign,
         },
         {
           title: '',
@@ -104,7 +108,7 @@ const ProductTable: React.SFC<TProductTable> = (props) => {
   return (
     <>
       <TableHeader onCreateClick={onCreateClick} />
-      <Table size={'small'} dataSource={dataSource} columns={buildProductColumns(products, setProducts, history)}/>
+      <Table bordered size={'small'} dataSource={dataSource} columns={buildProductColumns(products, setProducts, history)}/>
     </>
   )
 }
