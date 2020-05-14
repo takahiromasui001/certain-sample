@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table } from 'antd'
+import { Table, Button } from 'antd'
 import axios, { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import { ISpecification } from '../../pages/SpecificationList'
@@ -58,26 +58,21 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
   [
     {
       title: '仕様書名',
-      dataIndex: 'name',
-      key: 'name',
+      key: 'action',
+      render: (record: any) => {
+        return (
+          <Button type="link" onClick={() => {
+            history.push(`/specifications/${record.key}/specification_items`)
+          }}>
+            {record.name}
+          </Button>
+        )
+      }
     },
     {
       title: '更新日',
       dataIndex: 'updated_at',
       key: 'updated_at',
-    },
-    {
-      title: '',
-      key: 'action',
-      render: (record: any) => {
-        return (
-          <button onClick={() => {
-            history.push(`/specifications/${record.key}/specification_items`)
-          }}>
-            仕様書項目
-          </button>
-        )
-      },
     },
     {
       title: '',
