@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { ISpecification } from '../../pages/SpecificationList'
 import TableHeader from '../TableHeader'
 import MenuButton from 'src/shared/components/MenuButton'
+import { ColumnTitle } from 'src/shared/components/TableStyle'
 
 type TSpecificationTable = {
   specifications: ISpecification[]
@@ -57,7 +58,7 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
   const specificationItemColumn = 
   [
     {
-      title: '仕様書名',
+      title: <ColumnTitle>仕様書名</ColumnTitle>,
       key: 'action',
       render: (record: any) => {
         return (
@@ -70,7 +71,7 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
       }
     },
     {
-      title: '更新日',
+      title: <ColumnTitle>更新日</ColumnTitle>,
       dataIndex: 'updated_at',
       key: 'updated_at',
     },
@@ -92,7 +93,7 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
   return (
     <>
       <TableHeader onCreateClick={onCreateClick} />
-      <Table size={'small'} dataSource={dataSource} columns={specificationItemColumn}/>
+      <Table bordered size={'small'} dataSource={dataSource} columns={specificationItemColumn}/>
     </>
   )
 }

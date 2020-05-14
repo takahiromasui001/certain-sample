@@ -1,11 +1,11 @@
 import React, { Dispatch, SetStateAction } from 'react'
-import { Table, Menu, Button } from 'antd'
+import { Table } from 'antd'
 import axios, { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import * as H from 'history'
 import TableHeader from '../TableHeader'
 import { IProduct } from '../../pages/ProductList'
-import { ColumnTitle } from './style'
+import { ColumnTitle, NumColumnTitle } from 'src/shared/components/TableStyle'
 import MenuButton from 'src/shared/components/MenuButton'
 
 type TProductTable = {
@@ -64,7 +64,7 @@ const ProductTable: React.SFC<TProductTable> = (props) => {
           key: 'maker',
         },
         {
-          title: <ColumnTitle>単価</ColumnTitle>,
+          title: <NumColumnTitle>単価</NumColumnTitle>,
           dataIndex: 'price',
           key: 'price',
           align: priceAlign,
