@@ -38,7 +38,7 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
 
   useEffect(() => {
     form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId })
-  } , [initialValue]);
+  } , [initialValue, form]);
 
   return (
     <Modal

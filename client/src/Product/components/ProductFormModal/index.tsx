@@ -22,7 +22,7 @@ const ProductFormModal: React.FC<TProductFormModal> = (props) => {
   const [form] = Form.useForm()
   useEffect(() => {
     form.setFieldsValue({ name: initialValue.name, maker: initialValue.maker, price: initialValue.price })
-  } , [initialValue]);
+  } , [initialValue, form]);
 
   return (
     <Modal
@@ -57,7 +57,7 @@ const ProductFormModal: React.FC<TProductFormModal> = (props) => {
       >
         <Form.Item
           name="name"
-          label="仕様書名"
+          label="商品名"
         >
           <StyledInput className="text-input" />          
         </Form.Item>

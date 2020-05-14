@@ -1,11 +1,24 @@
 import React, { useCallback } from 'react'
 import { Layout, Menu } from 'antd'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 const { Sider } = Layout
 
 const Sidebar: React.FC = () => {
   let history = useHistory()
+  let location = useLocation()
+
+  const buildDefaultKey = () => {
+    switch (location.pathname) {
+      case '/specifications':
+        return "1"
+      case '/products':
+        return "2"
+      default:
+        return "1"
+    }
+  }
+  const key = buildDefaultKey()
 
   const redirectToPage = useCallback((url: string) => {
     history.push(url)
@@ -14,7 +27,7 @@ const Sidebar: React.FC = () => {
   return (
     <Sider width={200}>
       <Menu
-        defaultSelectedKeys={['1']}
+        defaultSelectedKeys={[key]}
         style={{ height: '100%', borderRight: 0,backgroundColor: '#F1F2F5' }}
       >
         <Menu.Item key="1" onClick={() => { redirectToPage('/specifications') }}>

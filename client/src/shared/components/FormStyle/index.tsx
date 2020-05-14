@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Button, Select as AntdSelect } from 'antd'
+import { Button } from 'antd'
 
 export const FormContainer = styled.div`
   width: 93%;
