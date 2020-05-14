@@ -106,7 +106,7 @@ const SpecificationItemList: React.SFC = () => {
 
   return (
     <>
-      <PageTitle>仕様書項目一覧</PageTitle>
+      <PageTitle>{specification.name}</PageTitle>
       <Tabs defaultActiveKey="1" onChange={callback} type="card">
         <TabPane tab="外部仕様書" key="1">
           <SpecificationItemTable itemType="outer" {...tableProps} />
