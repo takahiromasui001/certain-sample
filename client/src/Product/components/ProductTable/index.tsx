@@ -1,9 +1,10 @@
 import React, { Dispatch, SetStateAction } from 'react'
-import { Table } from 'antd'
+import { Table, Menu, Button } from 'antd'
 import axios, { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import * as H from 'history'
 import TableHeader from '../TableHeader'
+import MenuButton from 'src/shared/components/MenuButton'
 import { IProduct } from '../../pages/ProductList'
 import { ColumnTitle } from './style'
 
@@ -71,39 +72,33 @@ const ProductTable: React.SFC<TProductTable> = (props) => {
         {
           title: '',
           key: 'action',
+          width: '70px', 
           render: (record: any) => {
             return (
-              <button onClick={() => onEditClick(record.key)}>
-                編集
-              </button>
+              <MenuButton
+                onEditClick={() => onEditClick(record.key)}
+                onCancelClick={() => deleteProduct(record.key)}
+              />
             )
           },
-        },
-        {
-          title: '',
-          key: 'action',
-          render: (record: any) => {
-            return (
-              <button onClick={() => {
-                deleteProduct(record.key) 
-              }}>
-                削除
-              </button>
-            )
-          },
-        },
+        }
       ]
     )
   }
   
-  const dataSource = products.map((product: IProduct) => (
-    {
-      key: product.id,
-      name: product.name,
-      maker: product.maker,
-      price: product.price,
-    }
-  ))
+  const dataSource = products.map((product: IProduct) => {
+    const price = Number(product.price).toLocaleString()
+    const productPrice = (price === '0') ? '' : price
+
+    return (
+      {
+        key: product.id,
+        name: product.name,
+        maker: product.maker,
+        price: productPrice,
+      }
+    )
+  })
 
   return (
     <>

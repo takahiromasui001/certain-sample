@@ -38,10 +38,8 @@ module Api
       private
 
       def build_response(product)
-        price = (product.price.to_i == 0) ? '' : product.price.to_i.to_s(:delimited, delimiter: ',')
         {
-          id: product.id, name: product.name, maker: product.maker, 
-          price: price
+          id: product.id, name: product.name, maker: product.maker, price: product.price
         }
       end
     end
