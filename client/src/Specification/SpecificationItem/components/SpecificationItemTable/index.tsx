@@ -4,6 +4,8 @@ import axios, { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import { TSpecificationItem } from '../../page/SpecificationItemList'
 import TableHeader from '../TableHeader'
+import MenuButton from 'src/shared/components/MenuButton'
+import { ColumnTitle } from 'src/shared/components/TableStyle'
 
 type TSpecificationItemTable = {
   specification: any
@@ -50,44 +52,33 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
   const specificationItemColumn = 
   [
     {
-      title: '項目名',
+      title: <ColumnTitle>項目名</ColumnTitle>,
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: '品番・形状等',
+      title: <ColumnTitle>品番・形状等</ColumnTitle>,
       dataIndex: 'productName',
       key: 'productName',
     },
     {
-      title: 'メーカー',
+      title: <ColumnTitle>メーカー</ColumnTitle>,
       dataIndex: 'maker',
       key: 'maker',
     },
     {
       title: '',
       key: 'action',
+      width: '70px', 
       render: (record: any) => {
         return (
-          <button onClick={() => onEditClick(record.key)}>
-            編集
-          </button>
+          <MenuButton
+            onEditClick={() => onEditClick(record.key)}
+            onCancelClick={() => deleteSpecificationItem(record.key)}
+          />
         )
       },
-    },
-    {
-      title: '',
-      key: 'action',
-      render: (record: any) => {
-        return (
-          <button onClick={() => {
-            deleteSpecificationItem(record.key) 
-          }}>
-            削除
-          </button>
-        )
-      },
-    },
+    }
   ]
 
   const dataSource = Object.keys(specification).length === 0 ? [] :
@@ -104,7 +95,7 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
   return (
     <>
       <TableHeader onCreateClick={onCreateClick} />
-      <Table size={'small'} dataSource={dataSource} columns={specificationItemColumn}/>
+      <Table bordered size={'small'} dataSource={dataSource} columns={specificationItemColumn}/>
     </>
   )
 }
