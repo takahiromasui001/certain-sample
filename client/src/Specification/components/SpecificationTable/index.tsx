@@ -66,6 +66,7 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
           status: statusView[specification.status],
           constructionMethod: methodView[specification.constructionMethod],
           amount: productAmount,
+          employee: specification.employee
         }  
       )
     })
@@ -98,7 +99,12 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
       key: 'constructionMethod',
     },
     {
-      title: <NumColumnTitle>金額</NumColumnTitle>,
+      title: <ColumnTitle>担当者</ColumnTitle>,
+      dataIndex: 'employee',
+      key: 'employee',
+    },
+    {
+      title: <NumColumnTitle>見積金額</NumColumnTitle>,
       dataIndex: 'amount',
       key: 'amount',
       align: amountAlign,

@@ -57,7 +57,7 @@ module Api
           id: specification.id, name: specification.name,
           updated_at: specification.updated_at.strftime("%Y.%m.%d"),
           status: specification.status, constructionMethod: specification.construction_method,
-          amount: specification.amount,
+          amount: specification.amount, employee: specification.employee.name
         }
       end
     end

@@ -12,6 +12,7 @@ export interface ISpecification {
   status: string
   constructionMethod: string
   amount: string
+  employee: string
 }
 
 const SpecificationList: React.SFC = () => {
