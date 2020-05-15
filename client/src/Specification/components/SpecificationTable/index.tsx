@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { ISpecification } from '../../pages/SpecificationList'
 import TableHeader from '../TableHeader'
 import MenuButton from 'src/shared/components/MenuButton'
-import { ColumnTitle } from 'src/shared/components/TableStyle'
+import { ColumnTitle, NumColumnTitle } from 'src/shared/components/TableStyle'
 
 type TSpecificationTable = {
   specifications: ISpecification[]
@@ -31,7 +31,11 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
     const getSpecificationItem = async () => {
       const response: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/specifications/${id}`)
 
-      setModalInitialValue({ name: response.data.name })
+      setModalInitialValue({ 
+        name: response.data.name, status: response.data.status,
+        constructionMethod: response.data.constructionMethod,
+        amount: response.data.amount
+      })
       setModalType('edit')
       setEditId(id)
       setVisible(true)
@@ -46,14 +50,27 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
     history.push(`/specifications/`)
   }
 
+  const statusView: {[index: string]: string} = { start: '新規作成', completed: '完了' }
+  const methodView: {[index: string]: string} = { conventional: '在来工法', two_by_four: '2×4' }
+
   const dataSource = Object.keys(specifications).length === 0 ? [] :
-  specifications.map((specification: ISpecification) => (
-      {
-        key: specification.id,
-        name: specification.name,
-        updated_at: specification.updated_at,
-      }
-    ))
+    specifications.map((specification: ISpecification) => {
+      const amount = Number(specification.amount).toLocaleString()
+      const productAmount = (amount === '0') ? '' : amount
+
+      return(
+        {
+          key: specification.id,
+          name: specification.name,
+          updated_at: specification.updated_at,
+          status: statusView[specification.status],
+          constructionMethod: methodView[specification.constructionMethod],
+          amount: productAmount,
+        }  
+      )
+    })
+
+  const amountAlign: "left" | "right" | "center" = "right"
 
   const specificationItemColumn = 
   [
@@ -71,14 +88,30 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
       }
     },
     {
-      title: <ColumnTitle>更新日</ColumnTitle>,
+      title: <ColumnTitle>ステータス</ColumnTitle>,
+      dataIndex: 'status',
+      key: 'status',
+    },
+    {
+      title: <ColumnTitle>工法</ColumnTitle>,
+      dataIndex: 'constructionMethod',
+      key: 'constructionMethod',
+    },
+    {
+      title: <NumColumnTitle>金額</NumColumnTitle>,
+      dataIndex: 'amount',
+      key: 'amount',
+      align: amountAlign,
+    },
+    {
+      title: <ColumnTitle>最終変更日</ColumnTitle>,
       dataIndex: 'updated_at',
       key: 'updated_at',
     },
     {
       title: '',
       key: 'action',
-      width: '70px', 
+      width: '70px',
       render: (record: any) => {
         return (
           <MenuButton

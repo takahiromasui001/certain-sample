@@ -9,6 +9,9 @@ export interface ISpecification {
   id: string
   name: string
   updated_at: string
+  status: string
+  constructionMethod: string
+  amount: string
 }
 
 const SpecificationList: React.SFC = () => {
@@ -28,13 +31,16 @@ const SpecificationList: React.SFC = () => {
     getApiResult()
   }, [])
 
-  const onCreate = async (values: { name: string }) => {
+  const onCreate = async (values: { name: string, status: string, constructionMethod: string, amount: string }) => {
     try {
       const result = await axios.post(`http://localhost:3000/api/v1/specifications`, {
-        name: values.name,
+        name: values.name, status: values.status, constructionMethod: values.constructionMethod, amount: values.amount,
       })
+      console.log(result)
       const nextSpecifications: ISpecification[] = specifications.concat([{
-        id: result.data.id, name: result.data.name, updated_at: result.data.updated_at
+        id: result.data.id, name: result.data.name, updated_at: result.data.updated_at,
+        status: result.data.status, constructionMethod: result.data.constructionMethod,
+        amount: result.data.amount
       }])
       setVisible(false)
       setSpecifications(nextSpecifications)
@@ -43,12 +49,16 @@ const SpecificationList: React.SFC = () => {
     }
   }
 
-  const onEdit = async (values: { name: string }) => {
+  const onEdit = async (values: { name: string, status: string, constructionMethod: string, amount: string }) => {
     try {
       const result: any = await axios.patch(`http://localhost:3000/api/v1/specifications/${editId}`, {
-        name: values.name,
+        name: values.name, status: values.status, constructionMethod: values.constructionMethod, amount: values.amount
       })
-      const updatedSpacification = { id: result.data.id, name: result.data.name, updated_at: result.data.updated_at }
+      const updatedSpacification = { 
+        id: result.data.id, name: result.data.name, updated_at: result.data.updated_at,
+        status: result.data.status, constructionMethod: result.data.constructionMethod,
+        amount: result.data.amount
+      }
       const nextSpecifications: ISpecification[] = specifications.map((specification: ISpecification) => {
         return specification.id === updatedSpacification.id ? updatedSpacification : specification
       })
