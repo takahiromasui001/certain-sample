@@ -11,6 +11,7 @@ type TSpecificationFormModal = {
   onCancel: () => void
   initialValue: any
   modalType: string
+  employees: any[]
 }
 
 const layout = {
@@ -19,7 +20,7 @@ const layout = {
 }
 
 const SpecificationFormModal: React.FC<TSpecificationFormModal> = (props) => {
-  const { visible, onCreate, onEdit, onCancel, initialValue, modalType } = props
+  const { visible, onCreate, onEdit, onCancel, initialValue, modalType, employees } = props
   const [form] = Form.useForm()
   const statuses: { label: string, id: string }[] = [
     { label: '新規', id: 'start' },
@@ -36,7 +37,9 @@ const SpecificationFormModal: React.FC<TSpecificationFormModal> = (props) => {
   const methodList = methods.map( (method: { label: string, id: string }) =>
     <Option key={method.id} value={method.id}>{method.label}</Option>
   )
-
+  const employeeList = employees.map( (employee: { label: string, id: string }) => 
+  <Option key={employee.id} value={employee.id}>{employee.label}</Option>
+)
 
   useEffect(() => {
     form.setFieldsValue({ 
@@ -87,6 +90,14 @@ const SpecificationFormModal: React.FC<TSpecificationFormModal> = (props) => {
         >
           <Select style={{ width: "100%" }}>
             {statusList}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="employee"
+          label="担当者"
+        >
+          <Select style={{ width: "100%" }}>
+            {employeeList}
           </Select>
         </Form.Item>
         <Form.Item

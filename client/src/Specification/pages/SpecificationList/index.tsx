@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import PageTitle from 'src/shared/components/PageTitle'
 import SpecificationFormModal from '../../components/SpecificationFormModal'
 import SpecificationTable from '../../components/SpecificationTable'
+import useEmployeeList from '../../hooks/useEmployeeList'
 
 export interface ISpecification {
   id: string
@@ -23,6 +24,8 @@ const SpecificationList: React.SFC = () => {
   const [editId, setEditId] = useState('')
 
   let history = useHistory()
+  const employees = useEmployeeList()
+  console.log(employees)
 
   useEffect(() => {
     const getApiResult = async () => {
@@ -92,6 +95,7 @@ const SpecificationList: React.SFC = () => {
         onEdit={onEdit}
         initialValue={modalInitialValue}
         modalType={modalType}
+        employees={employees}
       />
     </>
   )
