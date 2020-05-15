@@ -31,6 +31,8 @@ module Api
       end
 
       # GET	/api/v1/specifications/:id
+      # HACK: 仕様書一覧と仕様書アイテム一覧の両方で用いているが、本来は分離するべき
+      #       (仕様書一覧にはspecification_itemsが必要ない)
       def show
         specification = Specification.find(params[:id])
 
