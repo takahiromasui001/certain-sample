@@ -8,5 +8,14 @@ export const Container = styled.div`
 `
 
 export const StyledCreateButton = styled(Button)`
+`
+
+export const StyledSearchButton = styled(Button)`
+  margin-left: 5px;
+`
+
+export const SearchButtonGroup = styled.div`
+  display: flex;
   margin-left: auto;
+  margin-left: 10px;
 `
