@@ -27,6 +27,9 @@ const TableHeader: React.FC<ITableHeader> = (props) => {
           </Col>
         </Row>
       </Input.Group>
+      <StyledCreateButton disabled>
+        仕様書出力
+      </StyledCreateButton>
       <StyledCreateButton onClick={onCreateClick}>
         新規作成
       </StyledCreateButton>
