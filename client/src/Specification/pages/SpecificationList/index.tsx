@@ -6,7 +6,7 @@ import SpecificationFormModal from '../../components/SpecificationFormModal'
 import SpecificationTable from '../../components/SpecificationTable'
 import useEmployeeList from '../../hooks/useEmployeeList'
 
-export interface ISpecification {
+export type TSpecification = {
   id: string
   name: string
   updated_at: string
@@ -34,13 +34,13 @@ const SpecificationList: React.SFC = () => {
     getApiResult()
   }, [])
 
-  const onCreate = async (values: { name: string, status: string, constructionMethod: string, amount: string, employee: string }) => {
+  const onCreate = async (values: TSpecification) => {
     try {
       const result = await axios.post(`http://localhost:3000/api/v1/specifications`, {
         name: values.name, status: values.status, constructionMethod: values.constructionMethod,
         amount: values.amount, employee: values.employee
       })
-      const nextSpecifications: ISpecification[] = specifications.concat([{
+      const nextSpecifications: TSpecification[] = specifications.concat([{
         id: result.data.id, name: result.data.name, updated_at: result.data.updated_at,
         status: result.data.status, constructionMethod: result.data.constructionMethod,
         amount: result.data.amount, employee: values.employee
@@ -52,7 +52,7 @@ const SpecificationList: React.SFC = () => {
     }
   }
 
-  const onEdit = async (values: { name: string, status: string, constructionMethod: string, amount: string, employee: string }) => {
+  const onEdit = async (values: TSpecification) => {
     try {
       const result: any = await axios.patch(`http://localhost:3000/api/v1/specifications/${editId}`, {
         name: values.name, status: values.status, constructionMethod: values.constructionMethod, amount: values.amount, employee: values.employee
@@ -62,7 +62,7 @@ const SpecificationList: React.SFC = () => {
         status: result.data.status, constructionMethod: result.data.constructionMethod,
         amount: result.data.amount, employee: result.data.employee
       }
-      const nextSpecifications: ISpecification[] = specifications.map((specification: ISpecification) => {
+      const nextSpecifications: TSpecification[] = specifications.map((specification: TSpecification) => {
         return specification.id === updatedSpacification.id ? updatedSpacification : specification
       })
       setVisible(false)
