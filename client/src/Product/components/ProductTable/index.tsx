@@ -4,12 +4,12 @@ import axios, { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import * as H from 'history'
 import TableHeader from '../TableHeader'
-import { IProduct } from '../../pages/ProductList'
+import { TProduct } from '../../pages/ProductList'
 import { ColumnTitle, NumColumnTitle } from 'src/shared/components/TableStyle'
 import MenuButton from 'src/shared/components/MenuButton'
 
 type TProductTable = {
-  products: IProduct[]
+  products: TProduct[]
   setProducts: any
   setModalInitialValue: any
   setModalType: any
@@ -43,14 +43,14 @@ const ProductTable: React.SFC<TProductTable> = (props) => {
 
   const deleteProduct = async (id: number) => {
     await axios.delete(`http://localhost:3000/api/v1/products/${id}`)
-    const nextProductList: IProduct[] = products.filter((product: IProduct) => ( product.id !== id ))
+    const nextProductList: TProduct[] = products.filter((product: TProduct) => ( product.id !== id ))
     setProducts(nextProductList)
     history.push('/products')
   }
 
   const priceAlign: "left" | "right" | "center" = "right"
 
-  const buildProductColumns = (products: IProduct[], setProducts: Dispatch<SetStateAction<IProduct[]>>, history: H.History<H.LocationState>) => {
+  const buildProductColumns = (products: TProduct[], setProducts: Dispatch<SetStateAction<TProduct[]>>, history: H.History<H.LocationState>) => {
     return (
       [
         {
@@ -86,7 +86,7 @@ const ProductTable: React.SFC<TProductTable> = (props) => {
     )
   }
   
-  const dataSource = products.map((product: IProduct) => {
+  const dataSource = products.map((product: TProduct) => {
     const price = Number(product.price).toLocaleString()
     const productPrice = (price === '0') ? '' : price
 

@@ -2,13 +2,13 @@ import React from 'react'
 import { Table, Button } from 'antd'
 import axios, { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
-import { ISpecification } from '../../pages/SpecificationList'
+import { TSpecification } from '../../pages/SpecificationList'
 import TableHeader from '../TableHeader'
 import MenuButton from 'src/shared/components/MenuButton'
 import { ColumnTitle, NumColumnTitle } from 'src/shared/components/TableStyle'
 
 type TSpecificationTable = {
-  specifications: ISpecification[]
+  specifications: TSpecification[]
   setSpecifications: any
   setModalInitialValue: any
   setModalType: any
@@ -46,7 +46,7 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
 
   const deleteSpecification = async (id: string) => {
     await axios.delete(`http://localhost:3000/api/v1/specifications/${id}`)
-    const nextSpecifications: ISpecification[] = specifications.filter((specification: ISpecification) => ( specification.id !== id ))
+    const nextSpecifications: TSpecification[] = specifications.filter((specification: TSpecification) => ( specification.id !== id ))
     setSpecifications(nextSpecifications)
     history.push(`/specifications/`)
   }
@@ -55,7 +55,7 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
   const methodView: {[index: string]: string} = { conventional: '在来工法', two_by_four: '2×4' }
 
   const dataSource = Object.keys(specifications).length === 0 ? [] :
-    specifications.map((specification: ISpecification) => {
+    specifications.map((specification: TSpecification) => {
       const amount = Number(specification.amount).toLocaleString()
       const productAmount = (amount === '0') ? '' : amount
       const employee: string = specification.employee.name

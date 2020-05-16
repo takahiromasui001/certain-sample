@@ -5,7 +5,7 @@ import PageTitle from 'src/shared/components/PageTitle'
 import ProductFormModal from '../../components/ProductFormModal'
 import ProductTable from '../../components/ProductTable'
 
-export interface IProduct {
+export type TProduct = {
   id: number
   name: string
   maker: string
@@ -29,16 +29,18 @@ const ProductList: React.SFC = () => {
     getApiResult()
   }, [])
 
-  const onCreate = async (values: { name: string, maker: string, price: string }) => {
+  const createPutParams = (values: TProduct) => ({
+    name: values.name, maker: values.maker, price: values.price
+  })
+
+  const createSpecification = (result: TProduct) => ({
+    id: result.id, name: result.name, maker: result.maker, price: result.price
+  })
+
+  const onCreate = async (values: TProduct) => {
     try {
-      const result = await axios.post('http://localhost:3000/api/v1/products', {
-        name: values.name,
-        maker: values.maker,
-        price: values.price
-      })
-      const nextProducts: IProduct[] = products.concat([{
-        id: result.data.id, name: result.data.name, maker: result.data.maker, price: result.data.price
-      }])
+      const result = await axios.post('http://localhost:3000/api/v1/products', createPutParams(values))
+      const nextProducts: TProduct[] = products.concat([createSpecification(result.data)])
       setVisible(false)
       setProducts(nextProducts)
     } catch(error) {
@@ -46,16 +48,11 @@ const ProductList: React.SFC = () => {
     }
   }
 
-  const onEdit = async (values: { name: string, maker: string, price: string }) => {
+  const onEdit = async (values: TProduct) => {
     try {
-      const result :AxiosResponse = await axios.patch(`http://localhost:3000/api/v1/products/${editId}`, {
-        name: values.name,
-        maker: values.maker,
-        price: values.price
-      })
-
-      const updatedProduct = { id: result.data.id, name: result.data.name, maker: result.data.maker, price: result.data.price }
-      const nextProducts: IProduct[] = products.map((product: IProduct) => {
+      const result :AxiosResponse = await axios.patch(`http://localhost:3000/api/v1/products/${editId}`, createPutParams(values))
+      const updatedProduct = createSpecification(result.data)
+      const nextProducts: TProduct[] = products.map((product: TProduct) => {
         return product.id === updatedProduct.id ? updatedProduct : product 
       })
       setVisible(false)
