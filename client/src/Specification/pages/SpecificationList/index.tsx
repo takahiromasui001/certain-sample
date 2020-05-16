@@ -34,17 +34,21 @@ const SpecificationList: React.SFC = () => {
     getApiResult()
   }, [])
 
+  const createPutParams = (values: TSpecification) => ({
+    name: values.name, status: values.status, constructionMethod: values.constructionMethod,
+    amount: values.amount, employee: values.employee
+  })
+
+  const createSpecificationItem = (result: TSpecification) => ({
+    id: result.id, name: result.name, updated_at: result.updated_at,
+    status: result.status, constructionMethod: result.constructionMethod,
+    amount: result.amount, employee: result.employee
+  })
+
   const onCreate = async (values: TSpecification) => {
     try {
-      const result = await axios.post(`http://localhost:3000/api/v1/specifications`, {
-        name: values.name, status: values.status, constructionMethod: values.constructionMethod,
-        amount: values.amount, employee: values.employee
-      })
-      const nextSpecifications: TSpecification[] = specifications.concat([{
-        id: result.data.id, name: result.data.name, updated_at: result.data.updated_at,
-        status: result.data.status, constructionMethod: result.data.constructionMethod,
-        amount: result.data.amount, employee: values.employee
-      }])
+      const result = await axios.post(`http://localhost:3000/api/v1/specifications`, createPutParams(values))
+      const nextSpecifications: TSpecification[] = specifications.concat([createSpecificationItem(result.data)])
       setVisible(false)
       setSpecifications(nextSpecifications)
     } catch(error) {
@@ -54,14 +58,8 @@ const SpecificationList: React.SFC = () => {
 
   const onEdit = async (values: TSpecification) => {
     try {
-      const result: any = await axios.patch(`http://localhost:3000/api/v1/specifications/${editId}`, {
-        name: values.name, status: values.status, constructionMethod: values.constructionMethod, amount: values.amount, employee: values.employee
-      })
-      const updatedSpacification = { 
-        id: result.data.id, name: result.data.name, updated_at: result.data.updated_at,
-        status: result.data.status, constructionMethod: result.data.constructionMethod,
-        amount: result.data.amount, employee: result.data.employee
-      }
+      const result: any = await axios.patch(`http://localhost:3000/api/v1/specifications/${editId}`, createPutParams(values))
+      const updatedSpacification = createSpecificationItem(result.data)
       const nextSpecifications: TSpecification[] = specifications.map((specification: TSpecification) => {
         return specification.id === updatedSpacification.id ? updatedSpacification : specification
       })

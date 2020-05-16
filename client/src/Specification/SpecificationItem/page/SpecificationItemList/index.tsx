@@ -22,12 +22,14 @@ const SpecificationItemInitialValue = {
   specification_items: []
 }
 
-
+type TModalInitialValue = {
+  name: string, type: string, productId: string,
+}
 // Note:
 // TSpecificationItemFormはあくまでFormの入力値に対する型で、
 // TSpecificationItem(stateの型)とは全く別の概念と判断。
 // 共通するプロパティは多いが完全に分ける
-export type TSpecificationItemForm = {
+type TSpecificationItemForm = {
   id: string
   name: string
   type: string
@@ -38,7 +40,7 @@ export type TSpecificationItemForm = {
 const SpecificationItemList: React.SFC = () => {
   const [specification, setSpecification] = useState<TSpecificationItem>(SpecificationItemInitialValue)
   const [visible, setVisible] = useState(false)
-  const [modalInitialValue, setModalInitialValue] = useState({ name: '', type: '', productId: '' })
+  const [modalInitialValue, setModalInitialValue] = useState<TModalInitialValue>({ name: '', type: '', productId: '' })
   const [modalType, setModalType] = useState('')
   const [editId, setEditId] = useState('')
   
@@ -55,19 +57,22 @@ const SpecificationItemList: React.SFC = () => {
     getApiResult()
   }, [specificationId])
 
+  const createPutParams = (values: TSpecificationItemForm) => ({
+    name: values.name,
+    type: values.type,
+    productId: values.productId,
+    specificationId: specificationId,
+  })
+
+  const createSpecification = (result: TSpecificationItem) => ({
+    id: result.id, name: result.name, type: result.type, product_name: result.product_name, maker: result.maker
+  })
+
   const onCreate = async (values: TSpecificationItemForm) => {
     try {
-      const result = await axios.post(`http://localhost:3000/api/v1/specification_items`, {
-        name: values.name,
-        type: values.type,
-        productId: values.productId,
-        specificationId: specificationId,
-      })
+      const result = await axios.post(`http://localhost:3000/api/v1/specification_items`, createPutParams(values))
 
-      const nextSpecificationItems: TSpecificationItem[] = specification.specification_items.concat([{
-        id: result.data.id, name: result.data.name, type: result.data.type, product_name: result.data.product_name, maker: result.data.maker
-      }])
-
+      const nextSpecificationItems: TSpecificationItem[] = specification.specification_items.concat([createSpecification(result.data)])
       const nextSpecification = {
         ...specification,
         specification_items: nextSpecificationItems
@@ -82,14 +87,9 @@ const SpecificationItemList: React.SFC = () => {
 
   const onEdit = async (values: TSpecificationItemForm) => {
     try {
-      const result = await axios.patch(`http://localhost:3000/api/v1/specification_items/${editId}`, {
-        name: values.name,
-        type: values.type,
-        productId: values.productId,
-        specificationId: specificationId,
-      })
+      const result = await axios.patch(`http://localhost:3000/api/v1/specification_items/${editId}`, createPutParams(values))
 
-      const updatedSpacification = { id: result.data.id, name: result.data.name, type: result.data.type, product_name: result.data.product_name, maker: result.data.maker }
+      const updatedSpacification = createSpecification(result.data)
       const nextSpecificationItems = specification.specification_items.map((item: TSpecificationItem) => (
         item.id === result.data.id ? updatedSpacification : item
       ))
