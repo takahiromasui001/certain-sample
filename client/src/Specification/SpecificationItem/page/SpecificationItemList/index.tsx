@@ -13,12 +13,30 @@ export type TSpecificationItem = {
   id: string
   name: string
   type: string
-  product_name: string
   maker: string
+  product_name: string
+  specification_items: any[]
+}
+const SpecificationItemInitialValue = {
+  id: '', name: '', type: '', maker: '', product_name: '',
+  specification_items: []
+}
+
+
+// Note:
+// TSpecificationItemFormはあくまでFormの入力値に対する型で、
+// TSpecificationItem(stateの型)とは全く別の概念と判断。
+// 共通するプロパティは多いが完全に分ける
+export type TSpecificationItemForm = {
+  id: string
+  name: string
+  type: string
+  maker: string
+  productId: string
 }
 
 const SpecificationItemList: React.SFC = () => {
-  const [specification, setSpecification] : any = useState({})
+  const [specification, setSpecification] = useState<TSpecificationItem>(SpecificationItemInitialValue)
   const [visible, setVisible] = useState(false)
   const [modalInitialValue, setModalInitialValue] = useState({ name: '', type: '', productId: '' })
   const [modalType, setModalType] = useState('')
@@ -37,7 +55,7 @@ const SpecificationItemList: React.SFC = () => {
     getApiResult()
   }, [specificationId])
 
-  const onCreate = async (values: { name: string, type: number, productId: number, specificationId: number }) => {
+  const onCreate = async (values: TSpecificationItemForm) => {
     try {
       const result = await axios.post(`http://localhost:3000/api/v1/specification_items`, {
         name: values.name,
@@ -62,7 +80,7 @@ const SpecificationItemList: React.SFC = () => {
     }
   }
 
-  const onEdit = async (values: { name: string, type: number, productId: number, specificationId: number }) => {
+  const onEdit = async (values: TSpecificationItemForm) => {
     try {
       const result = await axios.patch(`http://localhost:3000/api/v1/specification_items/${editId}`, {
         name: values.name,
