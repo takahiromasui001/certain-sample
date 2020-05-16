@@ -23,8 +23,12 @@ const SpecificationFormModal: React.FC<TSpecificationFormModal> = (props) => {
   const { visible, onCreate, onEdit, onCancel, initialValue, modalType, employees } = props
   const [form] = Form.useForm()
   const statuses: { label: string, id: string }[] = [
-    { label: '新規', id: 'start' },
-    { label: '完了', id: 'completed' },
+    { label: '新規相談', id: 'consultation' },
+    { label: '仮契約', id: 'provisional' },
+    { label: '本契約', id: 'contract' },
+    { label: '着工', id: 'start' },
+    { label: '竣工', id: 'completion' },
+    { label: '引き渡し', id: 'finished' },
   ]
   const methods: { label: string, id: string }[] = [
     { label: '従来工法', id: 'conventional' },

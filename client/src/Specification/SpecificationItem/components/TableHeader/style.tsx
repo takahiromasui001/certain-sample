@@ -9,4 +9,5 @@ export const Container = styled.div`
 
 export const StyledCreateButton = styled(Button)`
   margin-left: auto;
+  margin-left: 10px;
 `
