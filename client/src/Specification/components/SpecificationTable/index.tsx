@@ -31,10 +31,11 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
     const getSpecificationItem = async () => {
       const response: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/specifications/${id}`)
 
+      console.log(response)
       setModalInitialValue({ 
         name: response.data.name, status: response.data.status,
         constructionMethod: response.data.constructionMethod,
-        amount: response.data.amount
+        amount: response.data.amount, employee: response.data.employee,
       })
       setModalType('edit')
       setEditId(id)
@@ -57,6 +58,7 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
     specifications.map((specification: ISpecification) => {
       const amount = Number(specification.amount).toLocaleString()
       const productAmount = (amount === '0') ? '' : amount
+      const employee: string = specification.employee.name
 
       return(
         {
@@ -66,7 +68,7 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
           status: statusView[specification.status],
           constructionMethod: methodView[specification.constructionMethod],
           amount: productAmount,
-          employee: specification.employee
+          employee: employee
         }  
       )
     })

@@ -43,7 +43,8 @@ const SpecificationFormModal: React.FC<TSpecificationFormModal> = (props) => {
 
   useEffect(() => {
     form.setFieldsValue({ 
-      name: initialValue.name, status: initialValue.status, constructionMethod: initialValue.constructionMethod, amount: initialValue.amount
+      name: initialValue.name, status: initialValue.status, constructionMethod: initialValue.constructionMethod,
+      amount: initialValue.amount, employee: initialValue.employee
     })
   } , [initialValue, form]);
 

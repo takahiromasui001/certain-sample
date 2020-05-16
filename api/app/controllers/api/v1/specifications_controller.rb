@@ -12,7 +12,8 @@ module Api
 
       def create
         specification = Specification.create(
-          name: params[:name], status: params[:status], construction_method: params[:constructionMethod], amount: params[:amount]
+          name: params[:name], status: params[:status], construction_method: params[:constructionMethod],
+          amount: params[:amount], employee_id: params[:employee]
         )
         render json: specification_response(specification)
       end
@@ -25,7 +26,8 @@ module Api
       def update
         specification = Specification.find(params[:id])
         specification.update(
-          name: params[:name], status: params[:status], construction_method: params[:constructionMethod], amount: params[:amount]
+          name: params[:name], status: params[:status], construction_method: params[:constructionMethod],
+          amount: params[:amount], employee_id: params[:employee]
         )
         render json: specification_response(specification)
       end
@@ -47,6 +49,7 @@ module Api
           status: specification.status,
           constructionMethod: specification.construction_method,
           amount: specification.amount,
+          employee: specification.employee_id,
           specification_items: specification_items,
         }
         render json: response
@@ -57,7 +60,7 @@ module Api
           id: specification.id, name: specification.name,
           updated_at: specification.updated_at.strftime("%Y.%m.%d"),
           status: specification.status, constructionMethod: specification.construction_method,
-          amount: specification.amount, employee: specification.employee.name
+          amount: specification.amount, employee: specification.employee
         }
       end
     end
