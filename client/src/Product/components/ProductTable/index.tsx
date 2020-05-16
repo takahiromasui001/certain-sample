@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import * as H from 'history'
 import TableHeader from '../TableHeader'
 import { TProduct } from '../../pages/ProductList'
-import { ColumnTitle, NumColumnTitle } from 'src/shared/components/TableStyle'
+import { ColumnTitle } from 'src/shared/components/TableStyle'
 import MenuButton from 'src/shared/components/MenuButton'
 
 type TProductTable = {
@@ -64,7 +64,7 @@ const ProductTable: React.SFC<TProductTable> = (props) => {
           key: 'maker',
         },
         {
-          title: <NumColumnTitle>単価</NumColumnTitle>,
+          title: <ColumnTitle>単価</ColumnTitle>,
           dataIndex: 'price',
           key: 'price',
           align: priceAlign,

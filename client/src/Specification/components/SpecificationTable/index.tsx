@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { TSpecification } from '../../pages/SpecificationList'
 import TableHeader from '../TableHeader'
 import MenuButton from 'src/shared/components/MenuButton'
-import { ColumnTitle, NumColumnTitle } from 'src/shared/components/TableStyle'
+import { ColumnTitle } from 'src/shared/components/TableStyle'
 
 type TSpecificationTable = {
   specifications: TSpecification[]
@@ -106,7 +106,7 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
       key: 'employee',
     },
     {
-      title: <NumColumnTitle>見積金額</NumColumnTitle>,
+      title: <ColumnTitle>見積金額</ColumnTitle>,
       dataIndex: 'amount',
       key: 'amount',
       align: amountAlign,
