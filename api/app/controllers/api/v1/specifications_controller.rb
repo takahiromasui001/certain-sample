@@ -5,15 +5,17 @@ module Api
       def index
         specifications = Specification.all
         response = specifications.map do |specification|
-          { id: specification.id, name: specification.name, updated_at: specification.updated_at.strftime("%Y年%m月%d日 %H:%M:%S") }
+          specification_response(specification)
         end
         render json: response
       end
 
       def create
-        specification = Specification.create(name: params[:name])
-        response = { id: specification.id, name: specification.name, updated_at: specification.updated_at.strftime("%Y年%m月%d日 %H:%M:%S") }
-        render json: response
+        specification = Specification.create(
+          name: params[:name], status: params[:status], construction_method: params[:constructionMethod],
+          amount: params[:amount], employee_id: params[:employee]
+        )
+        render json: specification_response(specification)
       end
 
       def destroy
@@ -23,12 +25,16 @@ module Api
 
       def update
         specification = Specification.find(params[:id])
-        specification.update(name: params[:name])
-        response = { id: specification.id, name: specification.name, updated_at: specification.updated_at.strftime("%Y年%m月%d日 %H:%M:%S") }
-        render json: response
+        specification.update(
+          name: params[:name], status: params[:status], construction_method: params[:constructionMethod],
+          amount: params[:amount], employee_id: params[:employee]
+        )
+        render json: specification_response(specification)
       end
 
       # GET	/api/v1/specifications/:id
+      # HACK: 仕様書一覧と仕様書アイテム一覧の両方で用いているが、本来は分離するべき
+      #       (仕様書一覧にはspecification_itemsが必要ない)
       def show
         specification = Specification.find(params[:id])
 
@@ -40,9 +46,22 @@ module Api
         }
         response = {
           name: specification.name,
-          specification_items: specification_items
+          status: specification.status,
+          constructionMethod: specification.construction_method,
+          amount: specification.amount,
+          employee: specification.employee_id,
+          specification_items: specification_items,
         }
         render json: response
+      end
+
+      def specification_response(specification)
+        {
+          id: specification.id, name: specification.name,
+          updated_at: specification.updated_at.strftime("%Y.%m.%d"),
+          status: specification.status, constructionMethod: specification.construction_method,
+          amount: specification.amount, employee: specification.employee
+        }
       end
     end
   end
