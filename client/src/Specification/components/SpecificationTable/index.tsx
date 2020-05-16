@@ -31,7 +31,6 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
     const getSpecificationItem = async () => {
       const response: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/specifications/${id}`)
 
-      console.log(response)
       setModalInitialValue({ 
         name: response.data.name, status: response.data.status,
         constructionMethod: response.data.constructionMethod,
@@ -51,7 +50,9 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
     history.push(`/specifications/`)
   }
 
-  const statusView: {[index: string]: string} = { start: '新規作成', completed: '完了' }
+  const statusView: {[index: string]: string} = { 
+    consultation: '新規相談', provisional: '仮契約', contract: '本契約', start: '着工', completion: '竣工', finished: '引き渡し'
+  }
   const methodView: {[index: string]: string} = { conventional: '在来工法', two_by_four: '2×4' }
 
   const dataSource = Object.keys(specifications).length === 0 ? [] :
@@ -91,7 +92,7 @@ const SpecificationTable: React.SFC<TSpecificationTable> = (props) => {
       }
     },
     {
-      title: <ColumnTitle>ステータス</ColumnTitle>,
+      title: <ColumnTitle>契約・工事状況</ColumnTitle>,
       dataIndex: 'status',
       key: 'status',
     },
