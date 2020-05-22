@@ -11,7 +11,7 @@ type TSpecificationItemFormModal = {
   onCreate: (values: any) => void
   onEdit: (values: any) => void
   onCancel: () => void
-  initialValue: { name: string, type: string, productId: string }
+  initialValue: { name: string, type: string, productId: string, colorId: string }
   modalType: string
 }
 
@@ -51,13 +51,17 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
   }
 
   useEffect(() => {
-    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId })
+    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId, colorId: initialValue.colorId })
   } , [initialValue, form]);
 
   useEffect(() => {
     const getProductItem = async () => {
-      const response: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/products/${initialValue.productId}/colors`)
-      setColors(response.data)
+      if(initialValue.productId) {
+        const response: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/products/${initialValue.productId}/colors`)
+        setColors(response.data)
+      } else {
+        setColors([]) 
+      }
     }
     getProductItem()
   }, [initialValue.productId, setColors])

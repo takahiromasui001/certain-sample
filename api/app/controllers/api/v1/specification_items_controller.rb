@@ -10,10 +10,7 @@ module Api
           product_id: params[:productId],
           color_id: params[:colorId],
         )
-        render json: {
-          id: item.id, name: item.name, type: item.specification_type,
-          product_name: item.product.name, maker: item.product.maker
-        }
+        render json: build_response(item)
       end
 
       def destroy
@@ -32,9 +29,15 @@ module Api
           name: params[:name], specification_type: params[:type], 
           product_id: params[:productId], color_id: params[:colorId]
         )
-        render json: {
+        render json: build_response(item)
+      end
+
+      private
+
+      def build_response(item)
+        {
           id: item.id, name: item.name, type: item.specification_type,
-          product_name: item.product.name, maker: item.product.maker
+          product_name: item.product&.name, maker: item.product&.maker, color_name: item.color&.name
         }
       end
     end

@@ -23,7 +23,7 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
   let history = useHistory()
 
   const onCreateClick = () => {
-    setModalInitialValue({name: ''})
+    setModalInitialValue({ name: ''})
     setModalType('create')
     setEditId('')
     setVisible(true)
@@ -68,6 +68,11 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
       key: 'maker',
     },
     {
+      title: <ColumnTitle>カラー</ColumnTitle>,
+      dataIndex: 'color',
+      key: 'color',
+    },
+    {
       title: '',
       key: 'action',
       width: '70px', 
@@ -89,7 +94,8 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
         name: item.name,
         type: item.type,
         productName: item.product_name,
-        maker: item.maker
+        maker: item.maker,
+        color: item.color_name
       }
     )).filter((item: TSpecificationItem ) => item.type === itemType)
 
