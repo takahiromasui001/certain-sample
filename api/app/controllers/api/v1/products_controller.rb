@@ -38,7 +38,7 @@ module Api
       def colors
         product = Product.find(params[:id])
         colors = product.colors
-        render json: colors.map{ |color| { color: color.name }}
+        render json: colors.map{ |color| { id: color.id, label: color.name }}
       end
 
       private

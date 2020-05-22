@@ -35,6 +35,7 @@ type TSpecificationItemForm = {
   type: string
   maker: string
   productId: string
+  colorId: string
 }
 
 const SpecificationItemList: React.SFC = () => {
@@ -61,6 +62,7 @@ const SpecificationItemList: React.SFC = () => {
     name: values.name,
     type: values.type,
     productId: values.productId,
+    colorId: values.colorId,
     specificationId: specificationId,
   })
 
