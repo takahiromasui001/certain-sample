@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_17_104615) do
+ActiveRecord::Schema.define(version: 2020_05_22_104854) do
 
   create_table "colors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(version: 2020_05_17_104615) do
     t.bigint "product_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "color_id"
+    t.index ["color_id"], name: "index_specification_items_on_color_id"
     t.index ["product_id"], name: "index_specification_items_on_product_id"
     t.index ["specification_id"], name: "index_specification_items_on_specification_id"
   end
@@ -57,6 +59,7 @@ ActiveRecord::Schema.define(version: 2020_05_17_104615) do
   end
 
   add_foreign_key "colors", "products"
+  add_foreign_key "specification_items", "colors"
   add_foreign_key "specification_items", "products"
   add_foreign_key "specification_items", "specifications"
   add_foreign_key "specifications", "employees"

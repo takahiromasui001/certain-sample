@@ -37,7 +37,6 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
   const specificationTypeList = types.map( (type: { label: string, id: string }) =>
     <Option key={type.id} value={type.id}>{type.label}</Option>
   )
-
   const colorList: any = colors.map((color: { label: string, id: string}) =>
     <Option key={color.id} value={color.id}>{color.label}</Option>
   )
@@ -45,6 +44,7 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
   const selectProduct = ( value: any ) => {
     const getProductItem = async () => {
       const response: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/products/${value}/colors`)
+      form.setFieldsValue({ colorId: '' })
       setColors(response.data)
     }
     getProductItem()
@@ -53,6 +53,14 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
   useEffect(() => {
     form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId })
   } , [initialValue, form]);
+
+  useEffect(() => {
+    const getProductItem = async () => {
+      const response: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/products/${initialValue.productId}/colors`)
+      setColors(response.data)
+    }
+    getProductItem()
+  }, [initialValue.productId, setColors])
 
   return (
     <Modal

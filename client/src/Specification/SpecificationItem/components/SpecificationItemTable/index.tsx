@@ -33,7 +33,8 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
     const getSpecificationItem = async () => {
       const response: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/specification_items/${id}`)
       setModalInitialValue({ 
-        name: response.data.name, type: response.data.specification_type, productId: response.data.product_id
+        name: response.data.name, type: response.data.specification_type,
+        productId: response.data.product_id, colorId: response.data.color_id
       })
       setModalType('edit')
       setEditId(id)

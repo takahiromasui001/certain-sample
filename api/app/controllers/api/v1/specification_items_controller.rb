@@ -8,6 +8,7 @@ module Api
           name: params[:name],
           specification_type: params[:type],
           product_id: params[:productId],
+          color_id: params[:colorId],
         )
         render json: {
           id: item.id, name: item.name, type: item.specification_type,
@@ -27,7 +28,10 @@ module Api
 
       def update
         item = SpecificationItem.find(params[:id])
-        item.update(name: params[:name], specification_type: params[:type], product_id: params[:productId])
+        item.update(
+          name: params[:name], specification_type: params[:type], 
+          product_id: params[:productId], color_id: params[:colorId]
+        )
         render json: {
           id: item.id, name: item.name, type: item.specification_type,
           product_name: item.product.name, maker: item.product.maker
