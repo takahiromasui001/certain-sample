@@ -12,18 +12,17 @@ type TSpecificationItemTable = {
   setSpecification: any
   itemType: string
   specificationId: string
-  setModalInitialValue?: any
+  setFormInitialValue?: any
   setModalType?: any
   setEditId?: any
   setVisible?: any
 }
 
 const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
-  const { specification, setSpecification, itemType, specificationId, setModalInitialValue, setModalType, setEditId, setVisible } = props
+  const { specification, setSpecification, itemType, specificationId, setFormInitialValue, setModalType, setEditId, setVisible } = props
   let history = useHistory()
 
   const onCreateClick = () => {
-    setModalInitialValue({ name: ''})
     setModalType('create')
     setEditId('')
     setVisible(true)
@@ -32,7 +31,7 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
   const onEditClick = (id: string) => {
     const getSpecificationItem = async () => {
       const response: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/specification_items/${id}`)
-      setModalInitialValue({ 
+      setFormInitialValue({
         name: response.data.name, type: response.data.specification_type,
         productId: response.data.product_id, colorId: response.data.color_id
       })
