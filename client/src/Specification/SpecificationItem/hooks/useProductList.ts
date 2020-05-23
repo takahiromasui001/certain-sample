@@ -19,5 +19,3 @@ const useProductList = () => {
 }
 
 export default useProductList
-
-
