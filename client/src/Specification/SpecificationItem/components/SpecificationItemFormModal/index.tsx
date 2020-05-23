@@ -25,6 +25,10 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
   const { productColors, getProductColor } = useProductColorList(initialValue.productId)
   const [form] = Form.useForm()
 
+  useEffect(() => {
+    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId, colorId: initialValue.colorId })
+  } , [initialValue, form]);
+
   const types: { label: string, id: string }[] = [
     { label: '内部仕様書', id: 'inner' },
     { label: '外部仕様書', id: 'outer' },
@@ -42,10 +46,6 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
   )
 
   const selectProduct = ( value: any ) => getProductColor(value, form)
-
-  useEffect(() => {
-    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId, colorId: initialValue.colorId })
-  } , [initialValue, form]);
 
   return (
     <Modal
