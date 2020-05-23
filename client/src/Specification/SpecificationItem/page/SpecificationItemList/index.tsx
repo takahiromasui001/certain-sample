@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { Tabs } from 'antd'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import PageTitle from 'src/shared/components/PageTitle'
 import SpecificationItemFormModal from '../../components/SpecificationItemFormModal'
 import SpecificationItemTable from '../../components/SpecificationItemTable'
 import useProductList from '../../hooks/useProductList'
+import useModalManagement from '../../hooks/useModalManagement'
 
 const { TabPane } = Tabs
 
@@ -16,40 +17,21 @@ export type TSpecificationItem = {
   maker: string
   product_name: string
   color_name: string
-  specification_items: any[]
-}
-const SpecificationItemInitialValue = {
-  id: '', name: '', type: '', maker: '', product_name: '', color_name: '',
-  specification_items: []
 }
 
-type TModalInitialValue = { name: string, type: string, productId: string, colorId: string }
-const modalInitialValue: TModalInitialValue = { name: '', type: '', productId: '', colorId: '' }
-
-// Note:
-// TSpecificationItemFormはあくまでFormの入力値に対する型で、
-// TSpecificationItem(stateの型)とは全く別の概念と判断。
-// 共通するプロパティは多いが完全に分ける
-type TSpecificationItemForm = {
+export type TSpecificationWithItem = {
   id: string
   name: string
-  type: string
-  maker: string
-  productId: string
-  colorId: string
+  specification_items: TSpecificationItem[]
 }
+const SpecificationItemInitialValue = { id: '', name: '', specification_items: [] }
 
 const SpecificationItemList: React.SFC = () => {
-  const [specification, setSpecification] = useState<TSpecificationItem>(SpecificationItemInitialValue)
-  const [visible, setVisible] = useState(false)
-  const [modalValue, setModalInitialValue] = useState<TModalInitialValue>(modalInitialValue)
-  const [modalType, setModalType] = useState('')
+  const [specification, setSpecification] = useState<TSpecificationWithItem>(SpecificationItemInitialValue)
   const [editId, setEditId] = useState('')
-  
-  let history = useHistory()
+  const products = useProductList()
   const params: { id: string } = useParams()
   const specificationId = params.id
-  const products = useProductList()
 
   useEffect(() => {
     const getApiResult = async () => {
@@ -59,57 +41,19 @@ const SpecificationItemList: React.SFC = () => {
     getApiResult()
   }, [specificationId])
 
-  const createPutParams = (values: TSpecificationItemForm) => ({
-    name: values.name,
-    type: values.type,
-    productId: values.productId,
-    colorId: values.colorId,
-    specificationId: specificationId,
-  })
-
-  const createSpecification = (result: TSpecificationItem) => ({
-    id: result.id, name: result.name, type: result.type, product_name: result.product_name, maker: result.maker, color_name: result.color_name
-  })
-
-  const cleanUpModal = (nextSpecificationItems: any[]) => {
-    setVisible(false)
-    setSpecification({
-      ...specification,
-      specification_items: nextSpecificationItems
-    })
+  const useModalManagementParams = {
+    specificationId: specificationId, specification: specification,
+    setSpecification: setSpecification, editId: editId
   }
-
-  const onCreate = async (values: TSpecificationItemForm) => {
-    try {
-      const result = await axios.post(`http://localhost:3000/api/v1/specification_items`, createPutParams(values))
-      const nextSpecificationItems: TSpecificationItem[] = specification.specification_items.concat([createSpecification(result.data)])
-      cleanUpModal(nextSpecificationItems)
-    } catch(error) {
-      history.push(`/specifications/new`)
-    }
-  }
-
-  const onEdit = async (values: TSpecificationItemForm) => {
-    try {
-      const result = await axios.patch(`http://localhost:3000/api/v1/specification_items/${editId}`, createPutParams(values))
-      const nextSpecificationItems = specification.specification_items.map((item: TSpecificationItem) => (
-        item.id === result.data.id ? createSpecification(result.data) : item
-      ))
-      cleanUpModal(nextSpecificationItems)
-    } catch(error) {
-      // history.push(`/specifications/${id}/`)
-    }
-  }
-
-  const onCancel = () => {
-    setVisible(false)
-  }
+  const { 
+    onCreate, onEdit, onCancel, visible, modalValue, setModalValue, setVisible, modalType, setModalType
+  } = useModalManagement(useModalManagementParams)
 
   const tableProps = {
     specification: specification,
     setSpecification: setSpecification,
     specificationId: specificationId,
-    setModalInitialValue: setModalInitialValue,
+    setModalInitialValue: setModalValue,
     setModalType: setModalType,
     setEditId: setEditId,
     setVisible: setVisible
