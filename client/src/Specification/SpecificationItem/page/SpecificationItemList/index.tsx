@@ -53,7 +53,7 @@ const SpecificationItemList: React.SFC = () => {
     specification: specification,
     setSpecification: setSpecification,
     specificationId: specificationId,
-    setModalInitialValue: setFormValue,
+    setFormInitialValue: setFormValue,
     setModalType: setModalType,
     setEditId: setEditId,
     setVisible: setVisible
