@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import axios, { AxiosResponse } from 'axios'
 import { Modal, Form, Select } from 'antd'
 import { Input as StyledInput } from 'src/shared/components/FormStyle'
 
@@ -10,7 +11,7 @@ type TSpecificationItemFormModal = {
   onCreate: (values: any) => void
   onEdit: (values: any) => void
   onCancel: () => void
-  initialValue: { name: string, type: string, productId: string }
+  initialValue: { name: string, type: string, productId: string, colorId: string }
   modalType: string
 }
 
@@ -22,6 +23,7 @@ const layout = {
 const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props) => {
   const { products, visible, onCreate, onEdit, onCancel, initialValue, modalType } = props
   const [form] = Form.useForm()
+  const [colors, setColors] = useState([])
 
   const types: { label: string, id: string }[] = [
     { label: '内部仕様書', id: 'inner' },
@@ -35,10 +37,34 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
   const specificationTypeList = types.map( (type: { label: string, id: string }) =>
     <Option key={type.id} value={type.id}>{type.label}</Option>
   )
+  const colorList: any = colors.map((color: { label: string, id: string}) =>
+    <Option key={color.id} value={color.id}>{color.label}</Option>
+  )
+
+  const selectProduct = ( value: any ) => {
+    const getProductItem = async () => {
+      const response: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/products/${value}/colors`)
+      form.setFieldsValue({ colorId: '' })
+      setColors(response.data)
+    }
+    getProductItem()
+  }
 
   useEffect(() => {
-    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId })
+    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId, colorId: initialValue.colorId })
   } , [initialValue, form]);
+
+  useEffect(() => {
+    const getProductItem = async () => {
+      if(initialValue.productId) {
+        const response: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/products/${initialValue.productId}/colors`)
+        setColors(response.data)
+      } else {
+        setColors([]) 
+      }
+    }
+    getProductItem()
+  }, [initialValue.productId, setColors])
 
   return (
     <Modal
@@ -87,8 +113,16 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
           name="productId"
           label="商品"
         >
-          <Select style={{ width: "100%" }}>
+          <Select style={{ width: "100%" }} onChange={selectProduct}>
             {productList}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="colorId"
+          label="カラー"
+        >
+          <Select style={{ width: "100%" }}>
+            {colorList}
           </Select>
         </Form.Item>
       </Form>

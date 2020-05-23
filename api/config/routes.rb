@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   get 'products/index'
   namespace 'api' do
     namespace 'v1' do
-      resources :products, only: [:index, :create, :show, :update, :destroy]
+      resources :products, only: [:index, :create, :show, :update, :destroy] do
+        member do
+          get :colors
+        end
+      end
       resources :specifications, only: [:index, :create, :show, :update, :destroy]
       resources :specification_items, only: [:index, :create, :show, :update, :destroy] 
       resources :employees, only: [:index] 

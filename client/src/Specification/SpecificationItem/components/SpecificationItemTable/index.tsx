@@ -23,7 +23,7 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
   let history = useHistory()
 
   const onCreateClick = () => {
-    setModalInitialValue({name: ''})
+    setModalInitialValue({ name: ''})
     setModalType('create')
     setEditId('')
     setVisible(true)
@@ -33,7 +33,8 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
     const getSpecificationItem = async () => {
       const response: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/specification_items/${id}`)
       setModalInitialValue({ 
-        name: response.data.name, type: response.data.specification_type, productId: response.data.product_id
+        name: response.data.name, type: response.data.specification_type,
+        productId: response.data.product_id, colorId: response.data.color_id
       })
       setModalType('edit')
       setEditId(id)
@@ -67,6 +68,11 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
       key: 'maker',
     },
     {
+      title: <ColumnTitle>カラー</ColumnTitle>,
+      dataIndex: 'color',
+      key: 'color',
+    },
+    {
       title: '',
       key: 'action',
       width: '70px', 
@@ -88,7 +94,8 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
         name: item.name,
         type: item.type,
         productName: item.product_name,
-        maker: item.maker
+        maker: item.maker,
+        color: item.color_name
       }
     )).filter((item: TSpecificationItem ) => item.type === itemType)
 

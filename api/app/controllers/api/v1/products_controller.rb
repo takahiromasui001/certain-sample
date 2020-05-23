@@ -35,6 +35,12 @@ module Api
         render json: build_response(product)
       end
 
+      def colors
+        product = Product.find(params[:id])
+        colors = product.colors
+        render json: colors.map{ |color| { id: color.id, label: color.name }}
+      end
+
       private
 
       def build_response(product)

@@ -15,15 +15,16 @@ export type TSpecificationItem = {
   type: string
   maker: string
   product_name: string
+  color_name: string
   specification_items: any[]
 }
 const SpecificationItemInitialValue = {
-  id: '', name: '', type: '', maker: '', product_name: '',
+  id: '', name: '', type: '', maker: '', product_name: '', color_name: '',
   specification_items: []
 }
 
 type TModalInitialValue = {
-  name: string, type: string, productId: string,
+  name: string, type: string, productId: string, colorId: string
 }
 // Note:
 // TSpecificationItemFormはあくまでFormの入力値に対する型で、
@@ -35,12 +36,13 @@ type TSpecificationItemForm = {
   type: string
   maker: string
   productId: string
+  colorId: string
 }
 
 const SpecificationItemList: React.SFC = () => {
   const [specification, setSpecification] = useState<TSpecificationItem>(SpecificationItemInitialValue)
   const [visible, setVisible] = useState(false)
-  const [modalInitialValue, setModalInitialValue] = useState<TModalInitialValue>({ name: '', type: '', productId: '' })
+  const [modalInitialValue, setModalInitialValue] = useState<TModalInitialValue>({ name: '', type: '', productId: '', colorId: '' })
   const [modalType, setModalType] = useState('')
   const [editId, setEditId] = useState('')
   
@@ -61,11 +63,12 @@ const SpecificationItemList: React.SFC = () => {
     name: values.name,
     type: values.type,
     productId: values.productId,
+    colorId: values.colorId,
     specificationId: specificationId,
   })
 
   const createSpecification = (result: TSpecificationItem) => ({
-    id: result.id, name: result.name, type: result.type, product_name: result.product_name, maker: result.maker
+    id: result.id, name: result.name, type: result.type, product_name: result.product_name, maker: result.maker, color_name: result.color_name
   })
 
   const onCreate = async (values: TSpecificationItemForm) => {
