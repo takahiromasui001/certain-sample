@@ -63,7 +63,6 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
         form
           .validateFields()
           .then(values => {
-            console.log(values)
             modalType === 'edit' ? onEdit(values) : onCreate(values)
           })
           .catch(info => {

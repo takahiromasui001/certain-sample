@@ -4,7 +4,7 @@ import { TSpecificationItem, TSpecificationWithItem } from '../page/Specificatio
 import { useHistory } from 'react-router-dom'
 
 type TModalInitialValue = { name: string, type: string, productId: string, colorId: string }
-const formInitialValue: TSpecificationItemForm = { id: '', name: '', type: '', maker: '', productId: '', colorId: '' }
+const formInitialValue: TSpecificationItemForm = { id: '', name: '', type: '', maker: '', productId: '', colorId: '', productCandidate: [] }
 
 type TSpecificationItemForm = {
   id: string
@@ -13,6 +13,7 @@ type TSpecificationItemForm = {
   maker: string
   productId: string
   colorId: string
+  productCandidate: string[]
 }
 
 type TUseModalManagement = {
@@ -35,6 +36,7 @@ const useModalManagement = (props: TUseModalManagement) => {
     productId: values.productId,
     colorId: values.colorId,
     specificationId: specificationId,
+    productCandidate: values.productCandidate
   })
 
   const createSpecificationItem = (result: TSpecificationItem) => ({
