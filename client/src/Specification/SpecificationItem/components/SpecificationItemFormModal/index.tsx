@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Form, Select } from 'antd'
+import { Modal, Form, Select, Button, Col, Row  } from 'antd'
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Input as StyledInput } from 'src/shared/components/FormStyle'
 import useProductColorList from '../../hooks/useProductColorList'
 
@@ -26,7 +27,7 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
   const [form] = Form.useForm()
 
   useEffect(() => {
-    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId, colorId: initialValue.colorId })
+    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId, colorId: initialValue.colorId, productCandidate: [] })
   } , [initialValue, form]);
 
   const types: { label: string, id: string }[] = [
@@ -62,6 +63,7 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
         form
           .validateFields()
           .then(values => {
+            console.log(values)
             modalType === 'edit' ? onEdit(values) : onCreate(values)
           })
           .catch(info => {
@@ -105,6 +107,51 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
             {productColorList}
           </Select>
         </Form.Item>
+        <Form.List name="productCandidate">
+          {(fields, { add, remove }) => {
+            return (
+              <>
+                {fields.map((field, index) => (
+                  <Row key={field.key}>
+                    <Col>
+                      <div>カスタマイズ商品</div>
+                    </Col>
+                    <Col style={{width: '500px'}}>
+                      <Form.Item
+                        name={`productId${field.key}`}
+                        {...field}
+                        key={field.key}
+                      >
+                        <Select style={{ width: "100%" }} onChange={selectProduct}>
+                          {productList}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col>
+                      <MinusCircleOutlined
+                        className="dynamic-delete-button"
+                        onClick={() => {
+                          remove(field.name);
+                        }}
+                      />
+                    </Col>
+                  </Row>
+                ))}
+                <Form.Item>
+                  <Button
+                    type="dashed"
+                    onClick={() => {
+                      add();
+                    }}
+                    style={{ width: "100%" }}
+                  >
+                    Add field
+                  </Button>
+                </Form.Item>
+              </>
+            )
+          }}
+        </Form.List>
       </Form>
     </Modal>
   )
