@@ -46,14 +46,14 @@ const SpecificationItemList: React.SFC = () => {
     setSpecification: setSpecification, editId: editId
   }
   const { 
-    onCreate, onEdit, onCancel, visible, modalValue, setModalValue, setVisible, modalType, setModalType
+    onCreate, onEdit, onCancel, visible, formValue, setFormValue, setVisible, modalType, setModalType
   } = useModalManagement(useModalManagementParams)
 
   const tableProps = {
     specification: specification,
     setSpecification: setSpecification,
     specificationId: specificationId,
-    setModalInitialValue: setModalValue,
+    setModalInitialValue: setFormValue,
     setModalType: setModalType,
     setEditId: setEditId,
     setVisible: setVisible
@@ -82,7 +82,7 @@ const SpecificationItemList: React.SFC = () => {
         onCreate={onCreate}
         onCancel={onCancel}
         onEdit={onEdit}
-        initialValue={modalValue}
+        initialValue={formValue}
         modalType={modalType}
       />
     </>

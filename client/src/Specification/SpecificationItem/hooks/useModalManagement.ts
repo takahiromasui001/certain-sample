@@ -4,7 +4,7 @@ import { TSpecificationItem, TSpecificationWithItem } from '../page/Specificatio
 import { useHistory } from 'react-router-dom'
 
 type TModalInitialValue = { name: string, type: string, productId: string, colorId: string }
-const modalInitialValue: TSpecificationItemForm = { id: '', name: '', type: '', maker: '', productId: '', colorId: '' }
+const formInitialValue: TSpecificationItemForm = { id: '', name: '', type: '', maker: '', productId: '', colorId: '' }
 
 type TSpecificationItemForm = {
   id: string
@@ -25,7 +25,7 @@ type TUseModalManagement = {
 const useModalManagement = (props: TUseModalManagement) => {
   const { specificationId, setSpecification, specification, editId } = props
   const [visible, setVisible] = useState(false)
-  const [modalValue, setModalValue] = useState<TSpecificationItemForm>(modalInitialValue)
+  const [formValue, setFormValue] = useState<TSpecificationItemForm>(formInitialValue)
   const [modalType, setModalType] = useState('')
   let history = useHistory()
 
@@ -42,6 +42,7 @@ const useModalManagement = (props: TUseModalManagement) => {
   })
 
   const cleanUpModal = (nextSpecificationItems: any[]) => {
+    setFormValue(formInitialValue)
     setVisible(false)
     setSpecification({
       ...specification,
@@ -72,6 +73,7 @@ const useModalManagement = (props: TUseModalManagement) => {
   }
 
   const onCancel = () => {
+    setFormValue(formInitialValue)
     setVisible(false)
   }
 
@@ -80,8 +82,8 @@ const useModalManagement = (props: TUseModalManagement) => {
     onEdit: onEdit,
     onCancel: onCancel,
     visible: visible,
-    modalValue: modalValue,
-    setModalValue: setModalValue,
+    formValue: formValue,
+    setFormValue: setFormValue,
     setVisible: setVisible,
     modalType: modalType,
     setModalType: setModalType

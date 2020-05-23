@@ -49,6 +49,7 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
 
   return (
     <Modal
+      destroyOnClose={true}
       visible={visible}
       width={720}
       title="仕様書項目作成"
@@ -67,13 +68,11 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
             console.log('Validate Failed:', info);
           });
       }}
-      destroyOnClose={true}
     >
       <Form
         form={form}
         {...layout}
         name="specification_form_in_modal"
-        initialValues={ initialValue }
         size='middle'
       >
         <Form.Item
