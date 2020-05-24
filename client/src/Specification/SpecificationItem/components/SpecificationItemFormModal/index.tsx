@@ -29,7 +29,7 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
   const [customize, setCustomize] = useState(true)
 
   useEffect(() => {
-    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId, colorId: initialValue.colorId, productCandidate: initialValue.productCandidate })
+    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId, colorId: initialValue.colorId, productCandidate: initialValue.productCandidate, customize: false })
     setCustomize(false)
   } , [initialValue, form]);
 
@@ -115,6 +115,7 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
         <Form.Item
           name="customize"
           label="カスタマイズ"
+          valuePropName="checked"
         >
           <Checkbox onChange={toggleCustomize}/>
         </Form.Item>

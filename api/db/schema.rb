@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_23_113857) do
+ActiveRecord::Schema.define(version: 2020_05_24_123006) do
 
   create_table "candidate_products", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "specification_item_id", null: false
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2020_05_23_113857) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "color_id"
+    t.boolean "customize", default: false, null: false
     t.index ["color_id"], name: "index_specification_items_on_color_id"
     t.index ["product_id"], name: "index_specification_items_on_product_id"
     t.index ["specification_id"], name: "index_specification_items_on_specification_id"
