@@ -20,7 +20,8 @@ module Api
 
       def show
         specification_item = SpecificationItem.find(params[:id])
-        render json: specification_item
+        attributes = specification_item.attributes.merge({candidates: specification_item.candidates.ids})
+        render json: attributes
       end
 
       def update
@@ -34,7 +35,6 @@ module Api
         CandidateProduct.import(new_candidate_instances)
         CandidateProduct.destroy(delete_candidate_ids)
 
-        pp item.candidates
         render json: build_response(item)
       end
 
