@@ -12,7 +12,7 @@ type TSpecificationItemFormModal = {
   onCreate: (values: any) => void
   onEdit: (values: any) => void
   onCancel: () => void
-  initialValue: { name: string, type: string, productId: string, colorId: string }
+  initialValue: { name: string, type: string, productId: string, colorId: string, productCandidate: string[] }
   modalType: string
 }
 
@@ -27,7 +27,7 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
   const [form] = Form.useForm()
 
   useEffect(() => {
-    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId, colorId: initialValue.colorId, productCandidate: [] })
+    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId, colorId: initialValue.colorId, productCandidate: initialValue.productCandidate })
   } , [initialValue, form]);
 
   const types: { label: string, id: string }[] = [
