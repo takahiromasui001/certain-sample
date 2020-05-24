@@ -5,10 +5,9 @@ module Api
       def create
         specification = Specification.find(params[:specificationId])
         item = specification.specification_items.create(
-          name: params[:name],
-          specification_type: params[:type],
-          product_id: params[:productId],
-          color_id: params[:colorId],
+          name: params[:name], specification_type: params[:type],
+          product_id: params[:productId], color_id: params[:colorId],
+          customize: params[:customize]
         )
         render json: build_response(item)
       end
@@ -28,7 +27,8 @@ module Api
         item = SpecificationItem.find(params[:id])
         item.update(
           name: params[:name], specification_type: params[:type], 
-          product_id: params[:productId], color_id: params[:colorId]
+          product_id: params[:productId], color_id: params[:colorId],
+          customize: params[:customize]
         )
 
         new_candidate_instances, delete_candidate_ids = createCandidateIds(item)
@@ -57,7 +57,8 @@ module Api
       def build_response(item)
         {
           id: item.id, name: item.name, type: item.specification_type,
-          product_name: item.product&.name, maker: item.product&.maker, color_name: item.color&.name
+          product_name: item.product&.name, maker: item.product&.maker, color_name: item.color&.name,
+          customize: item.customize
         }
       end
     end

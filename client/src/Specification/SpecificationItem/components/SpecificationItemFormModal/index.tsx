@@ -12,7 +12,7 @@ type TSpecificationItemFormModal = {
   onCreate: (values: any) => void
   onEdit: (values: any) => void
   onCancel: () => void
-  initialValue: { name: string, type: string, productId: string, colorId: string, productCandidate: string[] }
+  initialValue: { name: string, type: string, productId: string, colorId: string, productCandidate: string[], customize: boolean }
   modalType: string
 }
 
@@ -29,8 +29,8 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
   const [customize, setCustomize] = useState(true)
 
   useEffect(() => {
-    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId, colorId: initialValue.colorId, productCandidate: initialValue.productCandidate, customize: false })
-    setCustomize(false)
+    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId, colorId: initialValue.colorId, productCandidate: initialValue.productCandidate, customize: initialValue.customize })
+    setCustomize(initialValue.customize)
   } , [initialValue, form]);
 
   const types: { label: string, id: string }[] = [
@@ -131,7 +131,7 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
                         label='カスタマイズ商品'
                         {...field}
                       >
-                        <Select onChange={selectProduct}>
+                        <Select>
                           {productList}
                         </Select>
                       </Form.Item>
@@ -151,7 +151,7 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
                         }}
                         style={{ width: "80%" }}
                       >
-                        Add field
+                        追加
                       </Button>
                     </div>
                 </>

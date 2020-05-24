@@ -34,7 +34,7 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
       setFormInitialValue({
         name: response.data.name, type: response.data.specification_type,
         productId: response.data.product_id, colorId: response.data.color_id,
-        productCandidate: response.data.candidates
+        productCandidate: response.data.candidates, customize: response.data.customize
       })
       setModalType('edit')
       setEditId(id)
