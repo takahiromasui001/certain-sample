@@ -19,6 +19,7 @@ type TSpecificationItemFormModal = {
 const layout = {
   labelCol: { span: 5 },
   wrapperCol: { span: 16 },
+  buttonCol: { span: 3 },
 }
 
 const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props) => {
@@ -111,42 +112,35 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
             return (
               <>
                 {fields.map((field, index) => (
-                  <Row key={field.key}>
-                    <Col>
-                      <div>カスタマイズ商品</div>
-                    </Col>
-                    <Col style={{width: '500px'}}>
-                      <Form.Item
-                        name={`productId${field.key}`}
-                        {...field}
-                        key={field.key}
-                      >
-                        <Select style={{ width: "100%" }} onChange={selectProduct}>
-                          {productList}
-                        </Select>
-                      </Form.Item>
-                    </Col>
-                    <Col>
-                      <MinusCircleOutlined
-                        className="dynamic-delete-button"
-                        onClick={() => {
-                          remove(field.name);
-                        }}
-                      />
-                    </Col>
-                  </Row>
+                  <div style={{position: 'relative'}}>
+                    <Form.Item
+                      name={`productId${field.key}`}
+                      label='カスタマイズ商品'
+                      {...field}
+                    >
+                      <Select onChange={selectProduct}>
+                        {productList}
+                      </Select>
+                    </Form.Item>
+                    <MinusCircleOutlined
+                      onClick={() => {
+                        remove(field.name);
+                      }}
+                      style={{position: 'absolute', right: '60px', top: '10px'}}
+                    />
+                  </div>
                 ))}
-                <Form.Item>
-                  <Button
-                    type="dashed"
-                    onClick={() => {
-                      add();
-                    }}
-                    style={{ width: "100%" }}
-                  >
-                    Add field
-                  </Button>
-                </Form.Item>
+                  <div style={{ textAlign: 'center' }}>
+                    <Button
+                      type="dashed"
+                      onClick={() => {
+                        add();
+                      }}
+                      style={{ width: "80%" }}
+                    >
+                      Add field
+                    </Button>
+                  </div>
               </>
             )
           }}
