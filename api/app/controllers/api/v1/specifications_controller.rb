@@ -42,7 +42,7 @@ module Api
         specification_items = specification.specification_items.map { |item| 
           {
             id: item.id, name: item.name, type: item.specification_type, product_name: item.product&.name,
-            maker: item.product&.maker, color_name: item.color&.name
+            maker: item.product&.maker, color_name: item.color&.name, customize: item.customize
           }
         }
         response = {

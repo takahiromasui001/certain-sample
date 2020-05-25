@@ -33,7 +33,8 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
       const response: AxiosResponse = await axios.get(`http://localhost:3000/api/v1/specification_items/${id}`)
       setFormInitialValue({
         name: response.data.name, type: response.data.specification_type,
-        productId: response.data.product_id, colorId: response.data.color_id
+        productId: response.data.product_id, colorId: response.data.color_id,
+        productCandidate: response.data.candidates, customize: response.data.customize
       })
       setModalType('edit')
       setEditId(id)
@@ -49,6 +50,7 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
     history.push(`/specifications/${specificationId}/specification_items`)
   }
 
+  const amountAlign: "left" | "right" | "center" = "center"
   const specificationItemColumn = 
   [
     {
@@ -72,6 +74,12 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
       key: 'color',
     },
     {
+      title: <ColumnTitle>カスタマイズ要望</ColumnTitle>,
+      dataIndex: 'customize',
+      key: 'customize',
+      align: amountAlign
+    },
+    {
       title: '',
       key: 'action',
       width: '70px', 
@@ -88,15 +96,16 @@ const SpecificationTable: React.SFC<TSpecificationItemTable> = (props) => {
 
   const dataSource = Object.keys(specification).length === 0 ? [] :
   specification.specification_items.map((item: TSpecificationItem) => (
-      {
-        key: item.id,
-        name: item.name,
-        type: item.type,
-        productName: item.product_name,
-        maker: item.maker,
-        color: item.color_name
-      }
-    )).filter((item: TSpecificationItem ) => item.type === itemType)
+    {
+      key: item.id,
+      name: item.name,
+      type: item.type,
+      productName: item.product_name,
+      maker: item.maker,
+      color: item.color_name,
+      customize: item.customize ? '○' : ''
+    }
+  )).filter((item: TSpecificationItem ) => item.type === itemType)
 
   return (
     <>

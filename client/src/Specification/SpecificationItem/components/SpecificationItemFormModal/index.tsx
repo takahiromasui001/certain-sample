@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Form, Select } from 'antd'
+import { Modal, Form, Select, Button, Checkbox  } from 'antd'
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Input as StyledInput } from 'src/shared/components/FormStyle'
 import useProductColorList from '../../hooks/useProductColorList'
 
@@ -11,22 +12,25 @@ type TSpecificationItemFormModal = {
   onCreate: (values: any) => void
   onEdit: (values: any) => void
   onCancel: () => void
-  initialValue: { name: string, type: string, productId: string, colorId: string }
+  initialValue: { name: string, type: string, productId: string, colorId: string, productCandidate: string[], customize: boolean }
   modalType: string
 }
 
 const layout = {
   labelCol: { span: 5 },
   wrapperCol: { span: 16 },
+  buttonCol: { span: 3 },
 }
 
 const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props) => {
   const { products, visible, onCreate, onEdit, onCancel, initialValue, modalType } = props
   const { productColors, getProductColor } = useProductColorList(initialValue.productId)
   const [form] = Form.useForm()
+  const [customize, setCustomize] = useState(true)
 
   useEffect(() => {
-    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId, colorId: initialValue.colorId })
+    form.setFieldsValue({ name: initialValue.name, type: initialValue.type, productId: initialValue.productId, colorId: initialValue.colorId, productCandidate: initialValue.productCandidate, customize: initialValue.customize })
+    setCustomize(initialValue.customize)
   } , [initialValue, form]);
 
   const types: { label: string, id: string }[] = [
@@ -46,6 +50,9 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
   )
 
   const selectProduct = ( value: any ) => getProductColor(value, form)
+  const toggleCustomize = (e: any) => {
+    e.target.checked ? setCustomize(true) : setCustomize(false)
+  }
 
   return (
     <Modal
@@ -105,6 +112,53 @@ const SpecificationItemFormModal: React.FC<TSpecificationItemFormModal> = (props
             {productColorList}
           </Select>
         </Form.Item>
+        <Form.Item
+          name="customize"
+          label="カスタマイズ"
+          valuePropName="checked"
+        >
+          <Checkbox onChange={toggleCustomize}/>
+        </Form.Item>
+        <div style={customize ? {display: 'inline'} : {display: 'none'}}>
+          <Form.List name="productCandidate">
+            {(fields, { add, remove }) => {
+              return (
+                <>
+                  {fields.map((field, index) => (
+                    <div style={{position: 'relative'}}>
+                      <Form.Item
+                        name={`productId${field.key}`}
+                        label='カスタマイズ商品'
+                        {...field}
+                      >
+                        <Select>
+                          {productList}
+                        </Select>
+                      </Form.Item>
+                      <MinusCircleOutlined
+                        onClick={() => {
+                          remove(field.name);
+                        }}
+                        style={{position: 'absolute', right: '60px', top: '10px'}}
+                      />
+                    </div>
+                  ))}
+                    <div style={{ textAlign: 'center' }}>
+                      <Button
+                        type="dashed"
+                        onClick={() => {
+                          add();
+                        }}
+                        style={{ width: "80%" }}
+                      >
+                        追加
+                      </Button>
+                    </div>
+                </>
+              )
+            }}
+          </Form.List>
+        </div>
       </Form>
     </Modal>
   )

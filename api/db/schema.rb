@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_22_104854) do
+ActiveRecord::Schema.define(version: 2020_05_24_123006) do
+
+  create_table "candidate_products", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "specification_item_id", null: false
+    t.bigint "product_id", null: false
+    t.index ["product_id"], name: "index_candidate_products_on_product_id"
+    t.index ["specification_item_id"], name: "index_candidate_products_on_specification_item_id"
+  end
 
   create_table "colors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
@@ -42,6 +49,7 @@ ActiveRecord::Schema.define(version: 2020_05_22_104854) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "color_id"
+    t.boolean "customize", default: false, null: false
     t.index ["color_id"], name: "index_specification_items_on_color_id"
     t.index ["product_id"], name: "index_specification_items_on_product_id"
     t.index ["specification_id"], name: "index_specification_items_on_specification_id"
@@ -58,6 +66,8 @@ ActiveRecord::Schema.define(version: 2020_05_22_104854) do
     t.index ["employee_id"], name: "index_specifications_on_employee_id"
   end
 
+  add_foreign_key "candidate_products", "products"
+  add_foreign_key "candidate_products", "specification_items"
   add_foreign_key "colors", "products"
   add_foreign_key "specification_items", "colors"
   add_foreign_key "specification_items", "products"
