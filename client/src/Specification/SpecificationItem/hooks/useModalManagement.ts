@@ -42,7 +42,8 @@ const useModalManagement = (props: TUseModalManagement) => {
   })
 
   const createSpecificationItem = (result: TSpecificationItem) => ({
-    id: result.id, name: result.name, type: result.type, product_name: result.product_name, maker: result.maker, color_name: result.color_name
+    id: result.id, name: result.name, type: result.type, product_name: result.product_name,
+    maker: result.maker, color_name: result.color_name, customize: result.customize
   })
 
   const cleanUpModal = (nextSpecificationItems: any[]) => {

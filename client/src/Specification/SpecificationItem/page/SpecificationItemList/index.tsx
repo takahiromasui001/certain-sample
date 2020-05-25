@@ -17,6 +17,7 @@ export type TSpecificationItem = {
   maker: string
   product_name: string
   color_name: string
+  customize: string
 }
 
 export type TSpecificationWithItem = {
